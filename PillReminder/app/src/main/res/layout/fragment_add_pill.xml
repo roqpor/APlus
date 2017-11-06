@@ -107,17 +107,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <ImageButton
+                android:id="@+id/imgBtnAddTime"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@android:color/holo_red_light"
                 android:src="@drawable/ic_add_black_24dp"
                 android:tint="@android:color/white" />
 
-            <ListView
+            <com.baoyz.swipemenulistview.SwipeMenuListView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="match_parent"
+                android:foreground="@drawable/border" />
 
         </LinearLayout>
 
