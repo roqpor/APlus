@@ -1,8 +1,8 @@
 package com.aplus.pillreminder.fragment;
 
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.database.RemindTime;
+import com.aplus.pillreminder.database.PillReminderDb;
+import com.aplus.pillreminder.model.Pill;
+import com.aplus.pillreminder.model.RemindTime;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -32,8 +36,14 @@ import java.util.List;
  */
 public class AddPillFragment extends Fragment implements View.OnClickListener {
 
-    public static final String TAG = "AddPillFragment";
+    public static final String TAG = AddPillFragment.class.getSimpleName();
 
+    private PillReminderDb pillReminderDb;
+    private EditText etName;
+    private EditText etDescribe;
+    private EditText etQuantity;
+    private EditText etDose;
+    private Button btnOk;
     private ImageButton imgBtnAddTime;
     private List<RemindTime> timeList;
     private ArrayAdapter<RemindTime> adapter;
@@ -42,6 +52,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
 
     public interface AddPillFragmentListener {
         void onImgBtnAddTimePressed();
+        void onBtnOkPressed();
     }
 
     public AddPillFragment() {
@@ -51,6 +62,11 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        pillReminderDb = Room.databaseBuilder(getActivity(),
+                PillReminderDb.class, "PillReminder.db")
+                .fallbackToDestructiveMigration()
+                .build();
 
         timeList = new ArrayList<>();
         adapter = new ArrayAdapter<RemindTime>(getActivity(), android.R.layout.simple_list_item_1, timeList);
@@ -68,6 +84,14 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setup(View view) {
+        etName = view.findViewById(R.id.etName);
+        etDescribe = view.findViewById(R.id.etDescribe);
+        etQuantity = view.findViewById(R.id.etQuantity);
+        etDose = view.findViewById(R.id.etDose);
+
+        btnOk = view.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(this);
+
         imgBtnAddTime = view.findViewById(R.id.imgBtnAddTime);
         imgBtnAddTime.setOnClickListener(this);
 
@@ -129,11 +153,19 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
             case R.id.imgBtnAddTime:
                 onImgBtnAddTime();
                 break;
+
+            case R.id.btnOk:
+                onBtnOk();
+                break;
         }
     }
 
     private void onImgBtnAddTime() {
         listener.onImgBtnAddTimePressed();
+    }
+
+    private void onBtnOk() {
+        insertPillWithTimes();
     }
 
     public void addTime(RemindTime remindTime) {
@@ -150,5 +182,48 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     private void deleteTime(RemindTime remindTime) {
         timeList.remove(remindTime);
         listView.invalidateViews();
+    }
+
+    private void insertPillWithTimes() {
+        final Pill pill = new Pill();
+        pill.setName(etName.getText().toString());
+        pill.setDescribe(etDescribe.getText().toString());
+        try {
+            pill.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
+            pill.setDose(Integer.parseInt(etDose.getText().toString()));
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), "Please enter the number.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        new AsyncTask<Void, Void, Long>() {
+            @Override
+            protected Long doInBackground(Void... voids) {
+                return pillReminderDb.pillDao().insert(pill);
+            }
+
+            @Override
+            protected void onPostExecute(final Long aLong) {
+                super.onPostExecute(aLong);
+
+                new AsyncTask<Void, Void, List<RemindTime>>() {
+                    @Override
+                    protected List<RemindTime> doInBackground(Void... voids) {
+                        for (RemindTime remindTime : timeList) {
+                            remindTime.setPillId(aLong.intValue());
+                        }
+
+                        pillReminderDb.remindTimeDao().insertAll(timeList);
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<RemindTime> remindTimes) {
+                        listener.onBtnOkPressed();
+                    }
+                }.execute();
+            }
+        }.execute();
     }
 }
