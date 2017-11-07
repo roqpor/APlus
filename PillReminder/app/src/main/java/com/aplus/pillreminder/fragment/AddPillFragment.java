@@ -169,13 +169,23 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     }
 
     public void addTime(RemindTime remindTime) {
+        int totalMinute = remindTime.getTotalMinute();
+
+        for (RemindTime r : timeList) {
+            if (r.getTotalMinute() == totalMinute) {
+                return;
+            }
+        }
+
         timeList.add(remindTime);
+
         Collections.sort(timeList, new Comparator<RemindTime>() {
             @Override
             public int compare(RemindTime t1, RemindTime t2) {
                 return t1.getTotalMinute() - t2.getTotalMinute();
             }
         });
+
         listView.invalidateViews();
     }
 
