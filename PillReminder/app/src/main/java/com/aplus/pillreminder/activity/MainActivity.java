@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     @Override
     public void onBtnOkPressed() {
-        // TODO: pill bag fragment
         // print Pill, RemindTime data in the db
         final PillReminderDb pillReminderDb = Room.databaseBuilder(getApplicationContext(),
                 PillReminderDb.class, "PillReminder.db")

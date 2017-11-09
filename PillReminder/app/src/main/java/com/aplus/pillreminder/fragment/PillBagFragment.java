@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aplus.pillreminder.adapter.PillAdapter;
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.adapter.PillAdapter;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -23,6 +23,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Edit pill.
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -49,7 +50,7 @@ public class PillBagFragment extends Fragment {
         pillList = new ArrayList<>();
         adapter = new PillAdapter(getActivity(), R.layout.item_pill_list, pillList);
 
-        queryPill();
+        queryPills();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class PillBagFragment extends Fragment {
         createSwipeMenu();
     }
 
-    private void queryPill() {
+    private void queryPills() {
         new AsyncTask<Void, Void, List<Pill>>() {
             @Override
             protected List<Pill> doInBackground(Void... voids) {
@@ -113,12 +114,31 @@ public class PillBagFragment extends Fragment {
                 switch (index) {
                     case 0:
                         // delete pill
+                        deletePill(pill);
                         break;
                 }
                 // false : close the menu; true : not close the menu
                 return true;
             }
         });
+    }
+
+    private void deletePill(final Pill pill) {
+        // TODO: delete reminder schedule
+
+        new AsyncTask<Void, Void, Pill>() {
+            @Override
+            protected Pill doInBackground(Void... voids) {
+                pillReminderDb.pillDao().delete(pill);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Pill pill) {
+                queryPills();
+            }
+        }.execute();
     }
 
     private int dp2px(int dp) {

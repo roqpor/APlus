@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
 
-@Database(entities = {Pill.class, RemindTime.class}, version = 1)
+@Database(entities = {Pill.class, RemindTime.class}, version = 2)
 public abstract class PillReminderDb extends RoomDatabase {
     public abstract PillDao pillDao();
     public abstract RemindTimeDao remindTimeDao();

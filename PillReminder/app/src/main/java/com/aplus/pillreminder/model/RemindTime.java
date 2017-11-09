@@ -1,9 +1,15 @@
 package com.aplus.pillreminder.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Pill.class,
+                    parentColumns = "id",
+                    childColumns = "pillId",
+                    onDelete = ForeignKey.CASCADE)
+})
 public class RemindTime {
 
     @PrimaryKey(autoGenerate = true)
