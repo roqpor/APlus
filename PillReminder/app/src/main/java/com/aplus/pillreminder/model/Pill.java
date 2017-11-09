@@ -56,4 +56,9 @@ public class Pill {
     public void setDose(int dose) {
         this.dose = dose;
     }
+
+    @Override
+    public String toString() {
+        return name + ":" + describe;
+    }
 }

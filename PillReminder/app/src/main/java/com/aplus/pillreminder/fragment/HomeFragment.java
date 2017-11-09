@@ -17,10 +17,12 @@ import com.aplus.pillreminder.R;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Button btnAdd;
+    private Button btnBag;
     private HomeFragmentListener listener;
 
     public interface HomeFragmentListener {
-        void onBtnAddPress();
+        void onBtnAddPressed();
+        void onBtnBagPressed();
     }
 
     public HomeFragment() {
@@ -44,6 +46,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         btnAdd = view.findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
+
+        btnBag = view.findViewById(R.id.btnBag);
+        btnBag.setOnClickListener(this);
     }
 
     @Override
@@ -52,10 +57,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.btnAdd:
                 onBtnAdd();
                 break;
+
+            case R.id.btnBag:
+                listener.onBtnBagPressed();
+                break;
         }
     }
 
     private void onBtnAdd() {
-        listener.onBtnAddPress();
+        listener.onBtnAddPressed();
     }
 }

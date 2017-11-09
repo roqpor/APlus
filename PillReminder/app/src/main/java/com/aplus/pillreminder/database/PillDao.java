@@ -13,6 +13,9 @@ import java.util.List;
 public interface PillDao {
 
     @Query("SELECT * FROM Pill")
+    public List<Pill> getAll();
+
+    @Query("SELECT * FROM Pill")
     public List<PillWithRemindTime> loadPillsWithRemindTimes();
 
     @Insert

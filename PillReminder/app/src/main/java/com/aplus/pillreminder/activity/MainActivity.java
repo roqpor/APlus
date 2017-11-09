@@ -13,6 +13,7 @@ import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.fragment.AddPillFragment;
 import com.aplus.pillreminder.fragment.HomeFragment;
+import com.aplus.pillreminder.fragment.PillBagFragment;
 import com.aplus.pillreminder.fragment.TimePickerFragment;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
@@ -36,11 +37,21 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     }
 
     @Override
-    public void onBtnAddPress() {
+    public void onBtnAddPressed() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.fragmentContainer, new AddPillFragment(), AddPillFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onBtnBagPressed() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragmentContainer, new PillBagFragment())
                 .addToBackStack(null)
                 .commit();
     }
