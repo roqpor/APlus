@@ -236,7 +236,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
 
                         @Override
                         protected void onPostExecute(Long aLong) {
-                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false);
+                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
                             listener.onBtnOkPressed();
                         }
                     }.execute();
@@ -245,7 +245,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         }.execute();
     }
 
-    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat){
+    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
 
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
@@ -260,6 +260,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
 //        myIntent.putExtra("notificationChannel", mChannel);
         myIntent.putExtra("id", uniqueId);
+        myIntent.putExtra("pill", pill);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, myIntent, 0);
 
         //cancel alarm

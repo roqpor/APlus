@@ -2,9 +2,11 @@ package com.aplus.pillreminder.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity
-public class Pill {
+public class Pill implements Parcelable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -16,6 +18,30 @@ public class Pill {
     private int quantity;
 
     private int dose;
+
+    public Pill(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        describe = in.readString();
+        quantity = in.readInt();
+        dose = in.readInt();
+    }
+
+    public static final Creator<Pill> CREATOR = new Creator<Pill>() {
+        @Override
+        public Pill createFromParcel(Parcel in) {
+            return new Pill(in);
+        }
+
+        @Override
+        public Pill[] newArray(int size) {
+            return new Pill[size];
+        }
+    };
+
+    public Pill() {
+
+    }
 
     public int getId() {
         return id;
@@ -55,5 +81,19 @@ public class Pill {
 
     public void setDose(int dose) {
         this.dose = dose;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(describe);
+        dest.writeInt(quantity);
+        dest.writeInt(dose);
     }
 }

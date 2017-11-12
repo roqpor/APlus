@@ -13,15 +13,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.activity.MainActivity;
-import com.github.arturogutierrez.Badges;
-import com.github.arturogutierrez.BadgesNotSupportedException;
+import com.aplus.pillreminder.model.Pill;
 
 import static android.app.Notification.BADGE_ICON_SMALL;
-import static android.app.Notification.VISIBILITY_PRIVATE;
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
@@ -33,6 +30,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         Intent mainActivity = new Intent(context, MainActivity.class);
 
         int uniqueId = intent.getIntExtra("id", -1);
+        Pill pill = intent.getParcelableExtra("pill");
 
         if(uniqueId == -1){
             Toast.makeText(context, "id equal -1", Toast.LENGTH_SHORT).show();
@@ -50,7 +48,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 .setAutoCancel(false)
                 .setSmallIcon(R.drawable.ic_pill)
                 .setContentTitle("Time to eat drugs.")
-                .setContentText("Welcome to Notification Service")
+                .setContentText(pill.getDescribe())
                 .setContentIntent(pendingIntent)
                 .setBadgeIconType(BADGE_ICON_SMALL)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
