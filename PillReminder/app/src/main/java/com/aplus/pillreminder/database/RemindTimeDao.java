@@ -2,6 +2,7 @@ package com.aplus.pillreminder.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
 
 import com.aplus.pillreminder.model.RemindTime;
 
@@ -11,5 +12,5 @@ import java.util.List;
 public interface RemindTimeDao {
 
     @Insert
-    void insertAll(List<RemindTime> remindTimeList);
+    Long insert(RemindTime remindTime);
 }

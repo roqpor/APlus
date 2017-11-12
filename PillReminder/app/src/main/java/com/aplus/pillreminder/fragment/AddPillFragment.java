@@ -1,7 +1,13 @@
 package com.aplus.pillreminder.fragment;
 
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.arch.persistence.room.Room;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.aplus.pillreminder.AlarmNotificationReceiver;
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.activity.NiticeActivity;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
@@ -26,6 +34,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -216,24 +225,61 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
             protected void onPostExecute(final Long aLong) {
                 super.onPostExecute(aLong);
 
-                new AsyncTask<Void, Void, List<RemindTime>>() {
-                    @Override
-                    protected List<RemindTime> doInBackground(Void... voids) {
-                        for (RemindTime remindTime : timeList) {
+                for (final RemindTime remindTime : timeList) {
+                    new AsyncTask<Void, Void, Long>() {
+                        @Override
+                        protected Long doInBackground(Void... voids) {
                             remindTime.setPillId(aLong.intValue());
+
+                            return pillReminderDb.remindTimeDao().insert(remindTime);
                         }
 
-                        pillReminderDb.remindTimeDao().insertAll(timeList);
-
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(List<RemindTime> remindTimes) {
-                        listener.onBtnOkPressed();
-                    }
-                }.execute();
+                        @Override
+                        protected void onPostExecute(Long aLong) {
+                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false);
+                            listener.onBtnOkPressed();
+                        }
+                    }.execute();
+                }
             }
         }.execute();
+    }
+
+    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat){
+
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+
+//        int importance = NotificationManager.IMPORTANCE_HIGH;
+//        NotificationChannel mChannel = new NotificationChannel(String.valueOf(uniqueId), "testtttt", importance);
+//        mChannel.setDescription("Welcome to Notification Service");
+//        mChannel.enableLights(true);
+//        mChannel.enableVibration(true);
+//        mChannel.setShowBadge(true);
+//        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
+        Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
+//        myIntent.putExtra("notificationChannel", mChannel);
+        myIntent.putExtra("id", uniqueId);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, myIntent, 0);
+
+        //cancel alarm
+//        myIntent = new Intent(SetActivity.this, AlarmActivity.class);
+//        pendingIntent = PendingIntent.getActivity(CellManageAddShowActivity.this,
+//                id, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        pendingIntent.cancel();
+//        alarmManager.cancel(pendingIntent);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if(!isRepeat){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        } else {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),3000, pendingIntent);
+        }
     }
 }
