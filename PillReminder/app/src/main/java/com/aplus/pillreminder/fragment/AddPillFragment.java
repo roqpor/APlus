@@ -2,8 +2,6 @@ package com.aplus.pillreminder.fragment;
 
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.aplus.pillreminder.AlarmNotificationReceiver;
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.activity.NiticeActivity;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
