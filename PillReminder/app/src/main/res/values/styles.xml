@@ -33,6 +33,7 @@
         <!-- Customize your Color and Font -->
         <item name="android:textColor">@color/colorGreen</item>
         <item name="android:textSize">20dp</item>
+        <item name="android:background">@drawable/border</item>
 
     </style>
 

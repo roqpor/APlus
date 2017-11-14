@@ -18,6 +18,8 @@
         </activity>
 
         <receiver android:name=".AlarmNotificationReceiver" />
+
+        <activity android:name=".schedule_time"></activity>
     </application>
 
 </manifest>

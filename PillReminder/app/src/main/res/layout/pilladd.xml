@@ -21,11 +21,10 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#E71D36"
-            android:gravity="center"
+            style="@style/Header"
             android:text="เพิ่มยา"
-            android:textColor="#faf8f8"
-            android:textSize="32sp" />
+            />
+
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -80,17 +79,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="ชื่อยา:"
-            android:textColor="#000000"
-            android:textSize="24sp"
+
+            style="@style/Reg_font"
 
 
             />
 
         <EditText
+            style="@style/Hint_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="ชื่อยา" />
+            android:hint="ชื่อยา"
+
+            android:singleLine="false" />
 
 
     </LinearLayout>
@@ -109,17 +111,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="ข้อมูล:"
-            android:textColor="#000000"
-            android:textSize="24sp"
+
+           style="@style/Reg_font"
 
 
             />
 
         <EditText
+            style="@style/Hint_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="ข้อมูล" />
+            android:hint="ข้อมูล"
+
+
+            />
 
 
     </LinearLayout>
@@ -138,8 +144,7 @@
             android:layout_height="wrap_content"
 
             android:text="จำนวน: "
-            android:textColor="#000000"
-            android:textSize="24sp"
+            style="@style/Reg_font"
 
 
             />
@@ -148,7 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-
+            style="@style/Hint_font"
             android:hint="10" />
 
         <TextView
@@ -157,8 +162,7 @@
             android:layout_height="wrap_content"
 
             android:text="เม็ด "
-            android:textColor="#000000"
-            android:textSize="22sp"
+            style="@style/Reg_font"
 
 
             />
@@ -180,8 +184,7 @@
             android:layout_height="wrap_content"
 
             android:text="จำนวน: "
-            android:textColor="#000000"
-            android:textSize="24sp"
+            style="@style/Reg_font"
 
 
             />
@@ -200,8 +203,7 @@
             android:layout_height="wrap_content"
 
             android:text="เม็ด/ครั้ง"
-            android:textColor="#000000"
-            android:textSize="22sp"
+            style="@style/Reg_font"
 
 
             />
@@ -209,88 +211,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/pilltime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pillcount2"
-        android:orientation="horizontal">
-
-
-
-
-      <CheckBox
-          android:id="@+id/mor"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="เช้า"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            />
-        <CheckBox
-            android:id="@+id/noon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="กลางวัน"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            />
-        <CheckBox
-            android:id="@+id/eve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="เย็น"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            />
-        <CheckBox
-            android:id="@+id/dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="ก่อนนอน"
-            android:textColor="#000000"
-            android:textSize="22sp"
-            />
-
-
-    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pilltime"
+        android:layout_below="@id/pillcount2">
 
-        >
 
 
         <ImageView

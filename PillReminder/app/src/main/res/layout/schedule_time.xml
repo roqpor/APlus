@@ -1,117 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="com.aplus.pillreminder.fragment.PillBagFragment">
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
 
         <TextView
-            android:id="@+id/textView"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Header"
+            android:text="วันนี้"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/time_font1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/header"
+        >
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="เย็น"
+
+            style="@style/Reg_font"
+
+
+            />
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="เช้า"
+
+            style="@style/Reg_font"
+
+
+            />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/time_im1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/time_font1"
+        >
+
+        <ImageView
+
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#E71D36"
-            android:gravity="center"
-            android:text="วันนี้"
-            android:textColor="#faf8f8"
-            android:textSize="32sp" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="310dp"
-            android:layout_marginVertical="100dp"
-            app:srcCompat="@drawable/sun" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="100dp"
+            android:layout_weight="1"
+android:layout_marginLeft="9dp"
             app:srcCompat="@drawable/moon2" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="310dp"
-            android:layout_marginVertical="390dp"
-            app:srcCompat="@drawable/sun" />
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+
+            />
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="50dp"
+
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="390dp"
-            app:srcCompat="@drawable/moon2" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="เย็น"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textIsSelectable="true"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginVertical="450dp"
-            />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="เย็น"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textIsSelectable="true"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginVertical="65dp"
-            />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="เช้า"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textIsSelectable="true"
-            android:layout_marginHorizontal="315dp"
-            android:layout_marginVertical="65dp"
-            />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="เย็น"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textIsSelectable="true"
-            android:layout_marginHorizontal="315dp"
-            android:layout_marginVertical="450dp"
-            />
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sun" />
 
 
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottomBar"
+
+    <LinearLayout
+        android:id="@+id/circletime"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        app:bb_tabXmlResource="@xml/tabs" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/time_im1"
+        >
 
-</LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/btn_radio" />
+
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/time_im2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/circletime"
+        >
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+
+            app:srcCompat="@drawable/moon2" />
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+
+            />
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sun" />
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/time_font2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/time_im2"
+        >
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="เย็น"
+
+            style="@style/Reg_font"
+
+
+            />
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="เช้า"
+
+            style="@style/Reg_font"
+
+
+            />
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
