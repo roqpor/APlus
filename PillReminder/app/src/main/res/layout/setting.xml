@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+
+    android:layout_alignParentBottom="false"
+    tools:context="com.aplus.pillreminder.fragment.PillBagFragment">
+
+
+<RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:gravity="center"
+            android:text="ตั้งค่า"
+            android:textColor="#faf8f8"
+            android:textSize="32sp" />
+
+        </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pillname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:orientation="horizontal">
+
+
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/pillname"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="71dp"
+            android:layout_marginRight="71dp"
+            android:text="การแจ้งเตือน"
+            android:textSize="25dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
