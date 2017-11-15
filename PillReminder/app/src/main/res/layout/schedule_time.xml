@@ -31,6 +31,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/header"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
 
         <TextView
@@ -38,9 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="เย็น"
+            android:text="ก่อนนอน"
 
-            style="@style/Reg_font"
+            style="@style/Reg_G_font"
 
 
             />
@@ -51,7 +53,7 @@
             android:layout_weight="10"
             android:text="เช้า"
 
-            style="@style/Reg_font"
+            style="@style/Reg_G_font"
 
 
             />
@@ -67,31 +69,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/time_font1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
 
         <ImageView
 
 
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-android:layout_marginLeft="9dp"
-            app:srcCompat="@drawable/moon2" />
 
-        <ImageView
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-
+            android:background="@drawable/ic_moon11"
+            android:layout_marginRight="150dp"
             />
 
-        <ImageView
 
+        <ImageView
+            android:layout_marginLeft="150dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/sun" />
+            android:background="@drawable/ic_sun10"
+
+            />
 
 
 
@@ -104,16 +105,34 @@ android:layout_marginLeft="9dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/time_im1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
 
 
         <ImageView
-            android:layout_width="230dp"
-            android:layout_height="230dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/btn_radio" />
+
+            android:layout_width="340dp"
+            android:layout_height="310dp"
+
+            android:background="@drawable/ic_circle" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="380dp"
+                android:layout_height="310dp"
+
+                android:src="@drawable/scircle" />
+
+
+        </RelativeLayout>
 
 
 
@@ -128,30 +147,30 @@ android:layout_marginLeft="9dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/circletime"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         >
 
         <ImageView
 
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
 
-            app:srcCompat="@drawable/moon2" />
-
-        <ImageView
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-
+            android:layout_marginRight="150dp"
+            android:background="@drawable/ic_moon11"
             />
 
+
+
         <ImageView
 
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="150dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/sun" />
+            android:background="@drawable/ic_sun10"
+            />
 
 
 
@@ -164,6 +183,8 @@ android:layout_marginLeft="9dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/time_im2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
 
         <TextView
@@ -173,18 +194,19 @@ android:layout_marginLeft="9dp"
             android:layout_weight="1"
             android:text="เย็น"
 
-            style="@style/Reg_font"
+            style="@style/Reg_G_font"
 
 
             />
         <TextView
 
+            android:layout_marginLeft="115dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="เช้า"
+            android:layout_weight="1"
+            android:text="กลางวัน"
 
-            style="@style/Reg_font"
+            style="@style/Reg_G_font"
 
 
             />
@@ -192,9 +214,6 @@ android:layout_marginLeft="9dp"
 
 
     </LinearLayout>
-
-
-
 
 
 </RelativeLayout>

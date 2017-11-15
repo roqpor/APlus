@@ -27,6 +27,13 @@
 
     </style>
 
+    <style name="Reg_G_font" parent="@android:style/Widget.TextView">
+        <!-- Customize your Color and Font -->
+        <item name="android:textColor">@color/colorGreen</item>
+        <item name="android:textSize">20dp</item>
+
+    </style>
+
 
     <!-- Hint Font  -->
     <style name="Hint_font" parent="@android:style/Widget.EditText">

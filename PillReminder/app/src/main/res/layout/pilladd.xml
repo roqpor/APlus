@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
 
 
-
     android:layout_alignParentBottom="false"
-    tools:context="com.aplus.pillreminder.fragment.PillBagFragment">
+    tools:context="com.aplus.pillreminder.fragment.PillBagFragment"
+    android:orientation="vertical"
+
+    >
 
 <RelativeLayout
         android:id="@+id/header"
@@ -26,22 +28,48 @@
             />
 
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            android:layout_marginHorizontal="315dp"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            android:id="@+id/closer"
+            android:layout_marginLeft="5dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="300dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_closex2"
+
+            />
 
 
-    </RelativeLayout>
+
+
+
+    <ImageButton
+        android:id="@+id/correct"
+        android:layout_marginLeft="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_correct"
+        />
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>
     <LinearLayout
         android:id="@+id/imagez"
         android:layout_width="match_parent"
@@ -49,19 +77,17 @@
         android:layout_below="@id/header"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="65dp"
-            android:layout_marginStart="65dp"
-            android:layout_marginTop="17dp"
+
+        <QuickContactBadge
+            android:id="@+id/quickContactBadge"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="108dp"
+            android:layout_marginStart="108dp"
             android:layout_toEndOf="@+id/imageButton2"
             android:layout_toRightOf="@+id/imageButton2"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-
+            android:src="@drawable/ic_person_black_24dp" />
 
 
     </LinearLayout>
@@ -90,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="ชื่อยา"
+            android:hint="เช่น พารา"
 
             android:singleLine="false" />
 
@@ -122,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="ข้อมูล"
+            android:hint="เช่น ยาสามัญ"
 
 
             />
@@ -209,41 +235,65 @@
             />
 
 
+
+
+
     </LinearLayout>
+
+
+
+
 
 
 
     <LinearLayout
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pillcount2">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
 
-
+        android:layout_marginRight="8dp"
+        >
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="20dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_alarm_black_24dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="20dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown" />
+            <ImageButton
+                android:id="@+id/imgBtnAddTime"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@android:color/holo_red_light"
+                android:src="@drawable/ic_add_black_24dp"
+                android:tint="@android:color/white" />
+
+            <com.baoyz.swipemenulistview.SwipeMenuListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="@drawable/border" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
 
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="OK" />
+
+
+
+</LinearLayout>
 
 
 
