@@ -3,18 +3,25 @@
     <tab
         id="@+id/tab_home"
         icon="@drawable/ic_home"
-        title="Home" />
+        />
     <tab
         id="@+id/tab_sche"
         icon="@drawable/ic_schedule"
-        title="Nearby" />
+        />
     <tab
-    id="@+id/tab_add"
-    icon="@drawable/ic_add_black_24dp"
-    title="Friends" />
+        id="@+id/tab_add"
+        icon="@drawable/ic_add_black_24dp"
+        />
+
+    <tab
+        id="@+id/tab_bag"
+        icon="@drawable/ic_hospitalbag"
+        />
 
     <tab
         id="@+id/tab_set"
         icon="@drawable/ic_setting"
-        title="Friends" />
+
+
+        />
 </tabs>
