@@ -2,33 +2,53 @@ package com.aplus.pillreminder.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.adapter.PillAdapter;
+import com.aplus.pillreminder.model.Pill;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment {
 
-    private Button btnAdd;
-    private Button btnBag;
-    private HomeFragmentListener listener;
+    public static String TAG = HomeFragment.class.getSimpleName();
 
-    public interface HomeFragmentListener {
-        void onBtnAddPressed();
-        void onBtnBagPressed();
-    }
+    @BindView(R.id.gridMorning)
+    RecyclerView gridMorning;
+
+    @BindView(R.id.gridAfternoon)
+    RecyclerView gridAfternoon;
+
+    @BindView(R.id.gridEvening)
+    RecyclerView gridEvening;
+
+    @BindView(R.id.gridNight)
+    RecyclerView gridNight;
+
+    private PillAdapter adapterMorning, adapterAfternoon, adapterEvening, adapterNight;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,35 +56,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        ButterKnife.bind(this, view);
+
         setup(view);
 
         return view;
     }
 
     private void setup(View view) {
-        listener = (HomeFragmentListener) getActivity();
+        adapterMorning = new PillAdapter(new ArrayList<Pill>());
+        adapterAfternoon = new PillAdapter(new ArrayList<Pill>());
+        adapterEvening = new PillAdapter(new ArrayList<Pill>());
+        adapterNight = new PillAdapter(new ArrayList<Pill>());
 
-        btnAdd = view.findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(this);
+        gridMorning.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        gridAfternoon.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        gridEvening.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        gridNight.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
-        btnBag = view.findViewById(R.id.btnBag);
-        btnBag.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnAdd:
-                onBtnAdd();
-                break;
-
-            case R.id.btnBag:
-                listener.onBtnBagPressed();
-                break;
-        }
-    }
-
-    private void onBtnAdd() {
-        listener.onBtnAddPressed();
+        gridMorning.setAdapter(adapterMorning);
+        gridAfternoon.setAdapter(adapterAfternoon);
+        gridEvening.setAdapter(adapterEvening);
+        gridNight.setAdapter(adapterNight);
     }
 }

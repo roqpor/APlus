@@ -9,6 +9,11 @@
 
     </style>
 
+    <style name="HomeTimeHeader">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- Header H1  -->
     <style name="Header" parent="@android:style/Widget.TextView">
         <!-- Customize your Color and Font -->

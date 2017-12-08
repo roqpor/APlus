@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.adapter.PillAdapter;
+import com.aplus.pillreminder.adapter.PillInfoAdapter;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -29,9 +29,10 @@ import java.util.List;
  */
 public class PillBagFragment extends Fragment {
 
+    public static String TAG = PillBagFragment.class.getSimpleName();
     private PillReminderDb pillReminderDb;
     private List<Pill> pillList;
-    private PillAdapter adapter;
+    private PillInfoAdapter adapter;
     private SwipeMenuListView listView;
 
     public PillBagFragment() {
@@ -48,7 +49,7 @@ public class PillBagFragment extends Fragment {
                 .build();
 
         pillList = new ArrayList<>();
-        adapter = new PillAdapter(getActivity(), R.layout.item_pill_list, pillList);
+        adapter = new PillInfoAdapter(getActivity(), R.layout.item_pill_info_list, pillList);
 
         queryPills();
     }

@@ -5,4 +5,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Home</string>
+    <string name="title_report">Report</string>
+    <string name="title_add">Add</string>
+    <string name="title_bag">Pill Bag</string>
+    <string name="title_setting">Setting</string>
+    <string name="morning">เช้า</string>
+    <string name="afternoon">กลางวัน</string>
+    <string name="evening">เย็น</string>
+    <string name="night">ค่ำ</string>
 </resources>

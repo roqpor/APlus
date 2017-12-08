@@ -15,7 +15,7 @@
 
     <tab
         id="@+id/tab_bag"
-        icon="@drawable/ic_hospitalbag"
+        icon="@drawable/ic_bag"
         />
 
     <tab

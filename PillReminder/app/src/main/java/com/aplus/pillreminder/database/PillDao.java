@@ -14,10 +14,10 @@ import java.util.List;
 public interface PillDao {
 
     @Query("SELECT * FROM Pill")
-    public List<Pill> getAll();
+    List<Pill> getAll();
 
     @Query("SELECT * FROM Pill")
-    public List<PillWithRemindTime> loadPillsWithRemindTimes();
+    List<PillWithRemindTime> loadPillsWithRemindTimes();
 
     @Insert
     long insert(Pill pill);
