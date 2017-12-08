@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.aplus.pillreminder.AlarmNotificationReceiver;
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.model.StaticData;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
@@ -45,14 +47,15 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = AddPillFragment.class.getSimpleName();
 
     private PillReminderDb pillReminderDb;
-    private EditText etName;
+    private AutoCompleteTextView actvName;
     private EditText etDescribe;
     private EditText etQuantity;
     private EditText etDose;
     private Button btnOk;
     private ImageButton imgBtnAddTime;
     private List<RemindTime> timeList;
-    private ArrayAdapter<RemindTime> adapter;
+    private ArrayAdapter<RemindTime> listViewAdapter;
+    private ArrayAdapter<String> actvNameAdapter;
     private SwipeMenuListView listView;
     private AddPillFragmentListener listener;
 
@@ -75,7 +78,9 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
                 .build();
 
         timeList = new ArrayList<>();
-        adapter = new ArrayAdapter<RemindTime>(getActivity(), android.R.layout.simple_list_item_1, timeList);
+        listViewAdapter = new ArrayAdapter<RemindTime>(getActivity(), android.R.layout.simple_list_item_1, timeList);
+
+        actvNameAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, StaticData.PILL_NAMES);
     }
 
     @Override
@@ -90,7 +95,9 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setup(View view) {
-        etName = view.findViewById(R.id.etName);
+        actvName = view.findViewById(R.id.actvName);
+        actvName.setAdapter(actvNameAdapter);
+
         etDescribe = view.findViewById(R.id.etDescribe);
         etQuantity = view.findViewById(R.id.etQuantity);
         etDose = view.findViewById(R.id.etDose);
@@ -102,7 +109,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         imgBtnAddTime.setOnClickListener(this);
 
         listView = view.findViewById(R.id.listView);
-        listView.setAdapter(adapter);
+        listView.setAdapter(listViewAdapter);
         createSwipeMenu();
 
         listener = (AddPillFragmentListener) getActivity();
@@ -202,7 +209,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
 
     private void insertPillWithTimes() {
         final Pill pill = new Pill();
-        pill.setName(etName.getText().toString());
+        pill.setName(actvName.getText().toString());
         pill.setDescribe(etDescribe.getText().toString());
         try {
             pill.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
