@@ -13,17 +13,18 @@ import android.widget.TextView;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.model.Pill;
+import com.aplus.pillreminder.model.PillWithRemindTime;
 
 import java.text.NumberFormat;
 import java.util.List;
 
-public class PillInfoAdapter extends ArrayAdapter<Pill> {
+public class PillInfoAdapter extends ArrayAdapter<PillWithRemindTime> {
 
     private Context context;
     private int layoutResourceId;
-    private List<Pill> data;
+    private List<PillWithRemindTime> data;
 
-    public PillInfoAdapter(@NonNull Context context, int layoutResourceId, @NonNull List<Pill> data) {
+    public PillInfoAdapter(@NonNull Context context, int layoutResourceId, @NonNull List<PillWithRemindTime> data) {
         super(context, layoutResourceId, data);
 
         this.context = context;
@@ -35,7 +36,7 @@ public class PillInfoAdapter extends ArrayAdapter<Pill> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -51,7 +52,7 @@ public class PillInfoAdapter extends ArrayAdapter<Pill> {
             holder = (ViewHolder) row.getTag();
         }
 
-        Pill pill = data.get(position);
+        Pill pill = data.get(position).getPill();
         holder.imgPill.setColorFilter(pill.getColor());
         holder.tvName.setText(pill.getName());
         holder.tvQuantity.setText(NumberFormat.getInstance().format(pill.getQuantity()));

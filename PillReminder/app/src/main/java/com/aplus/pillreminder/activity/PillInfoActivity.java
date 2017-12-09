@@ -8,10 +8,18 @@ import android.widget.TimePicker;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.fragment.AddPillFragment;
+import com.aplus.pillreminder.fragment.EditPillFragment;
+import com.aplus.pillreminder.fragment.PillInfoFragment;
 import com.aplus.pillreminder.fragment.TimePickerFragment;
+import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.model.RemindTime;
 
-public class PillInfoActivity extends AppCompatActivity implements AddPillFragment.AddPillFragmentListener, TimePickerDialog.OnTimeSetListener {
+public class PillInfoActivity extends AppCompatActivity implements PillInfoFragment.PillInfoFragmentListener, TimePickerDialog.OnTimeSetListener {
+
+    public static final String KEY_ACTION = "action";
+    public static final String KEY_PILL_WITH_REMIND_TIME = "pillInfoWithRemindTime";
+    public static final int ACTION_INSERT = 1;
+    public static final int ACTION_UPDATE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +27,19 @@ public class PillInfoActivity extends AppCompatActivity implements AddPillFragme
         setContentView(R.layout.activity_pill_info);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragmentContainer, new AddPillFragment(), AddPillFragment.TAG)
-                .commit();
+            int action = getIntent().getIntExtra(KEY_ACTION, 0);
+
+            if (action == ACTION_INSERT) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentContainer, new AddPillFragment())
+                        .commit();
+            } else if (action == ACTION_UPDATE) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentContainer, new EditPillFragment().newInstance((PillWithRemindTime) getIntent().getParcelableExtra(KEY_PILL_WITH_REMIND_TIME)))
+                        .commit();
+            }
         }
     }
 
@@ -39,12 +56,12 @@ public class PillInfoActivity extends AppCompatActivity implements AddPillFragme
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        AddPillFragment addPillFragment = (AddPillFragment) getSupportFragmentManager().findFragmentByTag(AddPillFragment.TAG);
+        PillInfoFragment fragment = (PillInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
         RemindTime remindTime = new RemindTime();
         remindTime.setHour(hourOfDay);
         remindTime.setMinute(minute);
 
-        addPillFragment.addTime(remindTime);
+        fragment.addTime(remindTime);
     }
 }

@@ -21,6 +21,9 @@ public class Pill implements Parcelable{
 
     private int dose;
 
+    public Pill() {
+    }
+
     public Pill(Parcel in) {
         id = in.readInt();
         color = in.readInt();
@@ -41,9 +44,6 @@ public class Pill implements Parcelable{
             return new Pill[size];
         }
     };
-
-    public Pill() {
-    }
 
     public int getId() {
         return id;

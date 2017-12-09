@@ -1,30 +1,26 @@
 package com.aplus.pillreminder.activity;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TimePicker;
 
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.adapter.PillInfoAdapter;
 import com.aplus.pillreminder.database.DatabaseManager;
-import com.aplus.pillreminder.fragment.AddPillFragment;
 import com.aplus.pillreminder.fragment.HomeFragment;
 import com.aplus.pillreminder.fragment.PillBagFragment;
-import com.aplus.pillreminder.fragment.TimePickerFragment;
-import com.aplus.pillreminder.model.RemindTime;
+import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillBagFragment.OnSwipeMenuClickListener {
 
     @BindView(R.id.navigation) BottomNavigationViewEx navigation;
 
@@ -81,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //                .commit();
 
         Intent intent = new Intent(MainActivity.this, PillInfoActivity.class);
+        intent.putExtra(PillInfoActivity.KEY_ACTION, PillInfoActivity.ACTION_INSERT);
         startActivity(intent);
     }
 
@@ -101,5 +98,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragmentContainer, new PillBagFragment())
                 .commit();
+    }
+
+    @Override
+    public void onEditClicked(PillWithRemindTime pillWithRemindTime) {
+        Intent intent = new Intent(MainActivity.this, PillInfoActivity.class);
+        intent.putExtra(PillInfoActivity.KEY_ACTION, PillInfoActivity.ACTION_UPDATE);
+        intent.putExtra(PillInfoActivity.KEY_PILL_WITH_REMIND_TIME, pillWithRemindTime);
+        startActivity(intent);
     }
 }
