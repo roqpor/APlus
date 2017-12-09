@@ -40,5 +40,5 @@ dependencies {
     implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
     // etc.
     implementation 'com.roughike:bottom-bar:2.3.1'
-
+    implementation 'com.github.QuadFlask:colorpicker:0.0.13'
 }

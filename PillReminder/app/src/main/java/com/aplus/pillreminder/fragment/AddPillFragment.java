@@ -3,9 +3,10 @@ package com.aplus.pillreminder.fragment;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,24 +20,33 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.AlarmNotificationReceiver;
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.model.StaticData;
+import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
+import com.aplus.pillreminder.model.StaticData;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -45,18 +55,19 @@ import java.util.List;
 public class AddPillFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = AddPillFragment.class.getSimpleName();
-
-    private PillReminderDb pillReminderDb;
-    private AutoCompleteTextView actvName;
-    private EditText etDescribe;
-    private EditText etQuantity;
-    private EditText etDose;
-    private Button btnOk;
-    private ImageButton imgBtnAddTime;
+    private PillReminderDb db;
+    @BindView(R.id.imgPill) ImageView imgPill;
+    @BindView(R.id.actvName) AutoCompleteTextView actvName;
+    @BindView(R.id.etDescribe) EditText etDescribe;
+    @BindView(R.id.etQuantity) EditText etQuantity;
+    @BindView(R.id.etDose) EditText etDose;
+    @BindView(R.id.btnOk) Button btnOk;
+    @BindView(R.id.imgBtnAddTime) ImageButton imgBtnAddTime;
+    @BindView(R.id.listView) SwipeMenuListView listView;
     private List<RemindTime> timeList;
     private ArrayAdapter<RemindTime> listViewAdapter;
     private ArrayAdapter<String> actvNameAdapter;
-    private SwipeMenuListView listView;
+    private Pill pill;
     private AddPillFragmentListener listener;
 
     public interface AddPillFragmentListener {
@@ -72,15 +83,14 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pillReminderDb = Room.databaseBuilder(getActivity(),
-                PillReminderDb.class, "PillReminder.db")
-                .fallbackToDestructiveMigration()
-                .build();
+        db = DatabaseManager.getInstance().getDb();
+
+        pill = new Pill();
 
         timeList = new ArrayList<>();
-        listViewAdapter = new ArrayAdapter<RemindTime>(getActivity(), android.R.layout.simple_list_item_1, timeList);
+        listViewAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, timeList);
 
-        actvNameAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, StaticData.PILL_NAMES);
+        actvNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, StaticData.PILL_NAMES);
     }
 
     @Override
@@ -89,26 +99,20 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_pill, container, false);
 
+        ButterKnife.bind(this, view);
+
         setup(view);
 
         return view;
     }
 
     private void setup(View view) {
-        actvName = view.findViewById(R.id.actvName);
         actvName.setAdapter(actvNameAdapter);
 
-        etDescribe = view.findViewById(R.id.etDescribe);
-        etQuantity = view.findViewById(R.id.etQuantity);
-        etDose = view.findViewById(R.id.etDose);
-
-        btnOk = view.findViewById(R.id.btnOk);
         btnOk.setOnClickListener(this);
 
-        imgBtnAddTime = view.findViewById(R.id.imgBtnAddTime);
         imgBtnAddTime.setOnClickListener(this);
 
-        listView = view.findViewById(R.id.listView);
         listView.setAdapter(listViewAdapter);
         createSwipeMenu();
 
@@ -173,11 +177,34 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void onImgBtnAddTime() {
+    @OnClick(R.id.imgPill) void onImgPill() {
+        ColorPickerDialogBuilder
+                .with(getActivity())
+                .setTitle("Choose color")
+                .initialColor(Color.WHITE)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setPositiveButton("OK", new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        imgPill.setColorFilter(selectedColor);
+                        pill.setColor(selectedColor);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @OnClick(R.id.imgBtnAddTime) void onImgBtnAddTime() {
         listener.onImgBtnAddTimePressed();
     }
 
-    private void onBtnOk() {
+    @OnClick(R.id.btnOk) void onBtnOk() {
         insertPillWithTimes();
     }
 
@@ -208,7 +235,6 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
     }
 
     private void insertPillWithTimes() {
-        final Pill pill = new Pill();
         pill.setName(actvName.getText().toString());
         pill.setDescribe(etDescribe.getText().toString());
         try {
@@ -222,7 +248,7 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
         new AsyncTask<Void, Void, Long>() {
             @Override
             protected Long doInBackground(Void... voids) {
-                return pillReminderDb.pillDao().insert(pill);
+                return db.pillDao().insert(pill);
             }
 
             @Override
@@ -235,12 +261,12 @@ public class AddPillFragment extends Fragment implements View.OnClickListener {
                         protected Long doInBackground(Void... voids) {
                             remindTime.setPillId(aLong.intValue());
 
-                            return pillReminderDb.remindTimeDao().insert(remindTime);
+                            return db.remindTimeDao().insert(remindTime);
                         }
 
                         @Override
                         protected void onPostExecute(Long aLong) {
-                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
+//                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
                             listener.onBtnOkPressed();
                         }
                     }.execute();

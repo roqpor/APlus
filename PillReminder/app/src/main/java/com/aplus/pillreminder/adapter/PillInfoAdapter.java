@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aplus.pillreminder.R;
@@ -41,6 +42,7 @@ public class PillInfoAdapter extends ArrayAdapter<Pill> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
+            holder.imgPill = row.findViewById(R.id.imgPill);
             holder.tvName = row.findViewById(R.id.tvName);
             holder.tvQuantity = row.findViewById(R.id.tvQuantity);
 
@@ -50,6 +52,7 @@ public class PillInfoAdapter extends ArrayAdapter<Pill> {
         }
 
         Pill pill = data.get(position);
+        holder.imgPill.setColorFilter(pill.getColor());
         holder.tvName.setText(pill.getName());
         holder.tvQuantity.setText(NumberFormat.getInstance().format(pill.getQuantity()));
 
@@ -57,6 +60,7 @@ public class PillInfoAdapter extends ArrayAdapter<Pill> {
     }
 
     public class ViewHolder {
+        ImageView imgPill;
         TextView tvName;
         TextView tvQuantity;
     }

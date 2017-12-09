@@ -7,12 +7,11 @@
     tools:context="com.aplus.pillreminder.fragment.AddPillFragment">
 
     <ImageView
+        android:id="@+id/imgPill"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:background="#cccccc"
-        android:src="@drawable/ic_person_black_24dp"
-        android:tint="@android:color/white" />
+        android:src="@drawable/ic_pill" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,15 +22,10 @@
             android:layout_height="wrap_content"
             android:text="ชื่อยา" />
 
-        <!--<EditText-->
-            <!--android:id="@+id/etName"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
         <AutoCompleteTextView
             android:id="@+id/actvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +41,6 @@
             android:id="@+id/etDescribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="เม็ด" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -93,7 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="เม็ด/ครั้ง" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -125,12 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foreground="@drawable/border" />
-
         </LinearLayout>
-
     </LinearLayout>
-
-
 
     <Button
         android:id="@+id/btnOk"
@@ -138,5 +125,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="OK" />
-
 </LinearLayout>

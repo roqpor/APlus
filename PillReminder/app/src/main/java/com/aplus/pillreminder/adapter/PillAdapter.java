@@ -1,6 +1,5 @@
 package com.aplus.pillreminder.adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +9,17 @@ import android.widget.ImageView;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.model.Pill;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
-    private List<Pill> pills;
+    private List<Pill> data;
 
-    public PillAdapter(List<Pill> pills) {
-        this.pills = pills;
-        pills.add(new Pill());
-        pills.add(new Pill());
-        pills.add(new Pill());
-        pills.add(new Pill());
-        pills.add(new Pill());
-        pills.add(new Pill());
+    public PillAdapter() {
+        this.data = new ArrayList<>();
     }
 
     @Override
@@ -38,13 +32,13 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Pill pill = pills.get(position);
-        holder.imageView.setColorFilter(Color.parseColor("#00CECB"));
+        Pill pill = data.get(position);
+        holder.imageView.setColorFilter(pill.getColor());
     }
 
     @Override
     public int getItemCount() {
-        return pills.size();
+        return data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,5 +49,9 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setData(List<Pill> data) {
+        this.data = data;
     }
 }

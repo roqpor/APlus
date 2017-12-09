@@ -11,6 +11,8 @@ public class Pill implements Parcelable{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int color;
+
     private String name;
 
     private String describe;
@@ -21,6 +23,7 @@ public class Pill implements Parcelable{
 
     public Pill(Parcel in) {
         id = in.readInt();
+        color = in.readInt();
         name = in.readString();
         describe = in.readString();
         quantity = in.readInt();
@@ -40,7 +43,6 @@ public class Pill implements Parcelable{
     };
 
     public Pill() {
-
     }
 
     public int getId() {
@@ -49,6 +51,14 @@ public class Pill implements Parcelable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public String getName() {
@@ -91,6 +101,7 @@ public class Pill implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeInt(color);
         dest.writeString(name);
         dest.writeString(describe);
         dest.writeInt(quantity);
