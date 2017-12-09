@@ -114,7 +114,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="340dp"
+                android:layout_height="310dp"
 
+                android:src="@drawable/scircle4" />
 
 
         <ImageView
@@ -124,12 +129,7 @@
 
             android:background="@drawable/ic_circle" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="380dp"
-                android:layout_height="310dp"
 
-                android:src="@drawable/scircle" />
 
 
         </RelativeLayout>

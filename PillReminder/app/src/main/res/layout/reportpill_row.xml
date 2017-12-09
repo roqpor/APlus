@@ -9,11 +9,33 @@
 
 
     <TextView
+        android:id="@+id/date"
         android:textAppearance="@android:style/TextAppearance.Large"
-        android:id="@+id/reportpill"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="วันนี้"
+
+        />
+    <TextView
+        android:id="@+id/noteatdrug"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ไม่ได้รับประทานยา"
+
+        />
+
+    <TextView
+        android:id="@+id/eatdrug"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="รับประทานยา"
 
 
         />
+
+
+
 </LinearLayout>
