@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -59,7 +58,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
 
     public interface PillInfoFragmentListener {
         void onImgBtnAddTimePressed();
-        void onActionConfirmPressed();
     }
 
     public PillInfoFragment() {
@@ -88,16 +86,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
         setup();
 
         return view;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_confirm:
-                onActionConfirm();
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @OnClick(R.id.imgPill) void onImgPill() {
@@ -139,7 +127,7 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
         imgPill.setColorFilter(selectedColor);
     }
 
-    abstract void onActionConfirm();
+    abstract public void onActionConfirm();
 
     private void setup() {
         actvName.setAdapter(actvNameAdapter);

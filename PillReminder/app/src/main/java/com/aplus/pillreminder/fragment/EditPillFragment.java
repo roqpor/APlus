@@ -51,11 +51,10 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     @Override
-    void onActionConfirm() {
+    public void onActionConfirm() {
         updatePill();
         deleteOldRemindTimes();
         insertNewRemindTimes();
-        listener.onActionConfirmPressed();
     }
 
     @Override

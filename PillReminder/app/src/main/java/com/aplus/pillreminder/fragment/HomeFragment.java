@@ -71,12 +71,12 @@ public class HomeFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        setup(view);
+        setup();
 
         return view;
     }
 
-    private void loadPillWithRemindTime() {
+    public void loadPillWithRemindTime() {
         new AsyncTask<Void, Void, List<PillWithRemindTime>>() {
             @Override
             protected List<PillWithRemindTime> doInBackground(Void... voids) {
@@ -87,18 +87,14 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(List<PillWithRemindTime> pillWithRemindTimes) {
                 super.onPostExecute(pillWithRemindTimes);
 
-                System.out.println("---------------------------------------------------------");
+                pillsMorning.clear();
+                pillsAfternoon.clear();
+                pillsEvening.clear();
+                pillsNight.clear();
 
                 for (PillWithRemindTime pillWithRemindTime : pillWithRemindTimes) {
                     Pill pill = pillWithRemindTime.getPill();
-
-                    System.out.printf("[%d, %s, %s, %d, %d]\n",
-                            pill.getId(), pill.getName(), pill.getDescribe(), pill.getQuantity(), pill.getDose());
-
                     for (RemindTime remindTime : pillWithRemindTime.getRemindTimeList()) {
-                        System.out.printf("    - %d, %s\n",
-                                remindTime.getId(), remindTime.toString());
-
                         int hour = remindTime.getHour();
                         if (4 <= hour && hour < 11) { // 04:00 - 10:59
                             pillsMorning.add(pill);
@@ -110,23 +106,22 @@ public class HomeFragment extends Fragment {
                             pillsNight.add(pill);
                         }
                     }
-                    System.out.println("---------------------------------------------------------");
-
-                    adapterMorning.setData(pillsMorning);
-                    adapterAfternoon.setData(pillsAfternoon);
-                    adapterEvening.setData(pillsEvening);
-                    adapterNight.setData(pillsNight);
-
-                    adapterMorning.notifyDataSetChanged();
-                    adapterAfternoon.notifyDataSetChanged();
-                    adapterEvening.notifyDataSetChanged();
-                    adapterNight.notifyDataSetChanged();
                 }
+
+                adapterMorning.setData(pillsMorning);
+                adapterAfternoon.setData(pillsAfternoon);
+                adapterEvening.setData(pillsEvening);
+                adapterNight.setData(pillsNight);
+
+                adapterMorning.notifyDataSetChanged();
+                adapterAfternoon.notifyDataSetChanged();
+                adapterEvening.notifyDataSetChanged();
+                adapterNight.notifyDataSetChanged();
             }
         }.execute();
     }
 
-    private void setup(View view) {
+    private void setup() {
         gridMorning.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         gridAfternoon.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         gridEvening.setLayoutManager(new GridLayoutManager(getActivity(), 4));

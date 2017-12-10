@@ -1,5 +1,6 @@
 package com.aplus.pillreminder.activity;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -59,6 +60,9 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_confirm:
+                onActionConfirm();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -68,11 +72,6 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
     public void onImgBtnAddTimePressed() {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-    @Override
-    public void onActionConfirmPressed() {
-        finish();
     }
 
     @Override
@@ -97,5 +96,12 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
         } else if (action == ACTION_UPDATE) {
             setTitle("Edit Pill");
         }
+    }
+
+    private void onActionConfirm() {
+        PillInfoFragment fragment = (PillInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        fragment.onActionConfirm();
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 }

@@ -37,15 +37,16 @@ public class AddPillFragment extends PillInfoFragment {
         pill = new Pill();
     }
 
-    @Override
-    void onActionConfirm() {
-        insertPillWithTimes();
-    }
 
     @Override
     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
         super.onClick(dialog, selectedColor, allColors);
         pill.setColor(selectedColor);
+    }
+
+    @Override
+    public void onActionConfirm() {
+        insertPillWithTimes();
     }
 
     private void insertPillWithTimes() {
@@ -76,11 +77,6 @@ public class AddPillFragment extends PillInfoFragment {
                             db.remindTimeDao().insert(remindTime);
                         }
                         return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        listener.onActionConfirmPressed();
                     }
                 }.execute(timeList);
             }

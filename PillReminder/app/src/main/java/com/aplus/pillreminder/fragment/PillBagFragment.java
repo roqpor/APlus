@@ -54,7 +54,7 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
         adapter = new PillInfoAdapter(getActivity(), R.layout.item_pill_info_list, pillWithRemindTimes);
         listener = (OnSwipeMenuClickListener) getActivity();
 
-        queryPills();
+        loadPills();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
         return true;
     }
 
-    private void queryPills() {
+    public void loadPills() {
         new AsyncTask<Void, Void, List<PillWithRemindTime>>() {
             @Override
             protected List<PillWithRemindTime> doInBackground(Void... voids) {
@@ -150,7 +150,7 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
 
             @Override
             protected void onPostExecute(Pill pill) {
-                queryPills();
+                loadPills();
             }
         }.execute();
     }
