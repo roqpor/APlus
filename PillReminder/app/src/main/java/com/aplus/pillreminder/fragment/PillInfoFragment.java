@@ -8,20 +8,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
-import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
 import com.aplus.pillreminder.model.StaticData;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -52,7 +50,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
     @BindView(R.id.etDescribe) EditText etDescribe;
     @BindView(R.id.etQuantity) EditText etQuantity;
     @BindView(R.id.etDose) EditText etDose;
-    @BindView(R.id.btnOk) Button btnOk;
     @BindView(R.id.imgBtnAddTime) ImageButton imgBtnAddTime;
     @BindView(R.id.listView) SwipeMenuListView listView;
     protected List<RemindTime> timeList;
@@ -62,7 +59,7 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
 
     public interface PillInfoFragmentListener {
         void onImgBtnAddTimePressed();
-        void onBtnOkPressed();
+        void onActionConfirmPressed();
     }
 
     public PillInfoFragment() {
@@ -72,6 +69,7 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         db = DatabaseManager.getInstance().getDb();
         timeList = new ArrayList<>();
@@ -90,6 +88,16 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
         setup();
 
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm:
+                onActionConfirm();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.imgPill) void onImgPill() {
@@ -113,8 +121,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
         listener.onImgBtnAddTimePressed();
     }
 
-    @OnClick(R.id.btnOk) abstract void onBtnOk();
-
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         RemindTime remindTime = timeList.get(position);
@@ -132,6 +138,8 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
         imgPill.setColorFilter(selectedColor);
     }
+
+    abstract void onActionConfirm();
 
     private void setup() {
         actvName.setAdapter(actvNameAdapter);

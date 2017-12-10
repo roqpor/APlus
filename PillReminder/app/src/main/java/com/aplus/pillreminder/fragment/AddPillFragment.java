@@ -37,7 +37,7 @@ public class AddPillFragment extends PillInfoFragment {
     }
 
     @Override
-    void onBtnOk() {
+    void onActionConfirm() {
         insertPillWithTimes();
     }
 
@@ -54,7 +54,7 @@ public class AddPillFragment extends PillInfoFragment {
             pill.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
             pill.setDose(Integer.parseInt(etDose.getText().toString()));
         } catch (NumberFormatException e) {
-            Toast.makeText(getActivity(), "Please enter the number.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please enter quantity.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -80,7 +80,7 @@ public class AddPillFragment extends PillInfoFragment {
                         @Override
                         protected void onPostExecute(Void aVoid) {
 //                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
-                            listener.onBtnOkPressed();
+                            listener.onActionConfirmPressed();
                         }
                     }.execute(remindTime);
                 }

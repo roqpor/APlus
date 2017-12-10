@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="16dp"
     android:orientation="vertical"
     tools:context="com.aplus.pillreminder.fragment.AddPillFragment">
 
@@ -13,116 +13,142 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_pill" />
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ชื่อยา" />
-
-        <AutoCompleteTextView
-            android:id="@+id/actvName"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ข้อมูล" />
+            android:layout_marginTop="24dp">
 
-        <EditText
-            android:id="@+id/etDescribe"
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actvName"
+                style="@style/PillInfoEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="จำนวน" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/etQuantity"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="เม็ด" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/etDescribe"
+                style="@style/PillInfoEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1" />
+        </TableRow>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="จำนวน" />
-
-        <EditText
-            android:id="@+id/etDose"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="เม็ด/ครั้ง" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_alarm_black_24dp" />
-
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
-            <ImageButton
-                android:id="@+id/imgBtnAddTime"
-                android:layout_width="match_parent"
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity" />
+
+            <EditText
+                android:id="@+id/etQuantity"
+                style="@style/PillInfoEditText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="3" />
+
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:text="tablet(s)" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dose" />
+
+            <EditText
+                style="@style/PillInfoEditText"
+                android:id="@+id/etDose"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                style="@style/PillInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:text="tablet(s) per time" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@android:color/holo_red_light"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/ic_add_black_24dp"
-                android:tint="@android:color/white" />
+                android:src="@drawable/ic_alarm_black_24dp" />
 
-            <com.baoyz.swipemenulistview.SwipeMenuListView
-                android:id="@+id/listView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="@drawable/border" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="OK" />
+                <ImageButton
+                    android:id="@+id/imgBtnAddTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/holo_red_light"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:tint="@android:color/white" />
+
+                <com.baoyz.swipemenulistview.SwipeMenuListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:foreground="@drawable/border" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

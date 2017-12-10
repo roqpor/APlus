@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.adapter.PillInfoAdapter;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
 import com.aplus.pillreminder.fragment.PillBagFragment;
@@ -28,12 +28,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             DatabaseManager.getInstance().initDb(getApplicationContext());
-
+            setTitle(R.string.app_name);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragmentContainer, new HomeFragment())
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.enableItemShiftingMode(false);
         navigation.enableShiftingMode(false);
         navigation.enableAnimation(false);
+        navigation.setTextVisibility(false);
         navigation.setOnNavigationItemSelectedListener(this);
     }
 
@@ -54,14 +56,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
+                setTitle(R.string.app_name);
                 onNavigationHome();
                 break;
             case R.id.navigation_report:
+                setTitle(R.string.title_report);
                 break;
             case R.id.navigation_bag:
+                setTitle(R.string.title_bag);
                 onNavigationBag();
                 break;
             case R.id.navigation_setting:
+                setTitle(R.string.title_setting);
                 break;
             case R.id.navigation_empty:
                 return false;
@@ -70,12 +76,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @OnClick(R.id.fab) public void onFab() {
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                .replace(R.id.fragmentContainer, new AddPillFragment(), AddPillFragment.TAG)
-//                .commit();
-
         Intent intent = new Intent(MainActivity.this, PillInfoActivity.class);
         intent.putExtra(PillInfoActivity.KEY_ACTION, PillInfoActivity.ACTION_INSERT);
         startActivity(intent);

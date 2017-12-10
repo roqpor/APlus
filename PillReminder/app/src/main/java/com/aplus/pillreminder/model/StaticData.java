@@ -8,4 +8,8 @@ public class StaticData {
             "Pemetrexed", "เพมิเทรกเซด",
             "Perindopril", "เพอรินโดพริล"
     };
+
+    public static final Integer[] DOSE_AMOUNT = new Integer[] {
+            1, 2, 3, 4, 5, 6, 7, 8, 9
+    };
 }

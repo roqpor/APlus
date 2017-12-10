@@ -4,6 +4,9 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TimePicker;
 
 import com.aplus.pillreminder.R;
@@ -25,6 +28,7 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pill_info);
+        setupToolbar();
 
         if (savedInstanceState == null) {
             int action = getIntent().getIntExtra(KEY_ACTION, 0);
@@ -44,13 +48,30 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pill_info, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onImgBtnAddTimePressed() {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     @Override
-    public void onBtnOkPressed() {
+    public void onActionConfirmPressed() {
         finish();
     }
 
@@ -63,5 +84,18 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
         remindTime.setMinute(minute);
 
         fragment.addTime(remindTime);
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        int action = getIntent().getIntExtra(KEY_ACTION, 0);
+        if (action == ACTION_INSERT) {
+            setTitle("Add Pill");
+        } else if (action == ACTION_UPDATE) {
+            setTitle("Edit Pill");
+        }
     }
 }

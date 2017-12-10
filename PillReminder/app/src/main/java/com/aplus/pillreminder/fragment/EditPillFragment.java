@@ -48,9 +48,9 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     @Override
-    void onBtnOk() {
-        Toast.makeText(getActivity(), "onBtnOk", Toast.LENGTH_SHORT).show();
-//        listener.onBtnOkPressed();
+    void onActionConfirm() {
+        Toast.makeText(getActivity(), "onActionConfirm", Toast.LENGTH_SHORT).show();
+//        listener.onActionConfirmPressed();
     }
 
     @Override
