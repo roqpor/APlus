@@ -17,6 +17,7 @@ import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
 
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -66,24 +67,22 @@ public class AddPillFragment extends PillInfoFragment {
 
             @Override
             protected void onPostExecute(final Long aLong) {
-                super.onPostExecute(aLong);
-
-                for (RemindTime remindTime : timeList) {
-                    new AsyncTask<RemindTime, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(RemindTime... remindTimes) {
-                            remindTimes[0].setPillId(aLong.intValue());
-                            db.remindTimeDao().insert(remindTimes[0]);
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
+                new AsyncTask<List<RemindTime>, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(List<RemindTime>[] lists) {
+                        for (RemindTime remindTime : lists[0]) {
 //                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
-                            listener.onActionConfirmPressed();
+                            remindTime.setPillId(aLong.intValue());
+                            db.remindTimeDao().insert(remindTime);
                         }
-                    }.execute(remindTime);
-                }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        listener.onActionConfirmPressed();
+                    }
+                }.execute(timeList);
             }
         }.execute();
     }
