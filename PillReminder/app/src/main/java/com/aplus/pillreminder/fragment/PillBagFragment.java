@@ -24,7 +24,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Edit pill.
 /**
  * A simple {@link Fragment} subclass.
  */

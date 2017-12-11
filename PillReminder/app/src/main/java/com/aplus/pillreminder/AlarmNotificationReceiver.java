@@ -1,7 +1,6 @@
 package com.aplus.pillreminder;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -13,13 +12,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.aplus.pillreminder.activity.MainActivity;
 import com.aplus.pillreminder.model.Pill;
 
-import static android.app.Notification.BADGE_ICON_SMALL;
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {

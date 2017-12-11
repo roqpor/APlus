@@ -1,7 +1,11 @@
 package com.aplus.pillreminder.activity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.aplus.pillreminder.InsertEatLogReceiver;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
@@ -17,6 +22,8 @@ import com.aplus.pillreminder.fragment.PillBagFragment;
 import com.aplus.pillreminder.fragment.ReportFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +36,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (isFirstRun()) {
+            setInsertEatLogSchedule();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -44,6 +56,31 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         setupBottomNavigation();
+    }
+
+    private boolean isFirstRun() {
+        final String PREFS_NAME = "com.aplus.pillreminder";
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        if (prefs.getBoolean("firstrun", true)) {
+            prefs.edit().putBoolean("firstrun", false).apply();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void setInsertEatLogSchedule() {
+        Intent intent = new Intent(getApplicationContext(), InsertEatLogReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
     }
 
     @Override

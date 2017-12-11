@@ -19,6 +19,7 @@
 
         <receiver android:name=".AlarmNotificationReceiver" />
         <receiver android:name=".YesReceiver" />
+        <receiver android:name=".InsertEatLogReceiver" />
 
         <activity android:name=".activity.PillInfoActivity"></activity>
     </application>
