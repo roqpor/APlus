@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             setTitle(R.string.app_name);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragmentContainer, new HomeFragment())
+                    .add(R.id.fragmentContainer, new HomeFragment(), HomeFragment.TAG)
                     .commit();
         }
 
