@@ -9,7 +9,7 @@ import com.aplus.pillreminder.model.RemindTime;
 @Dao
 public interface RemindTimeDao {
     @Insert
-    void insert(RemindTime remindTime);
+    long insert(RemindTime remindTime);
 
     @Delete
     void delete(RemindTime remindTime);

@@ -101,6 +101,10 @@ public class PillInfoActivity extends AppCompatActivity implements PillInfoFragm
     private void onActionConfirm() {
         PillInfoFragment fragment = (PillInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         fragment.onActionConfirm();
+    }
+
+    @Override
+    public void onActionConfirmCompleted() {
         setResult(Activity.RESULT_OK);
         finish();
     }

@@ -74,9 +74,14 @@ public class AddPillFragment extends PillInfoFragment {
                         for (RemindTime remindTime : lists[0]) {
 //                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
                             remindTime.setPillId(aLong.intValue());
-                            db.remindTimeDao().insert(remindTime);
+                            db.remindTimeDao().insert(remindTime); // return added remindTime's id
                         }
                         return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        listener.onActionConfirmCompleted();
                     }
                 }.execute(timeList);
             }

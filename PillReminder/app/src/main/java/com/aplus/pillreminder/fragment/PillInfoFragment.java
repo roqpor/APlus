@@ -58,6 +58,7 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
 
     public interface PillInfoFragmentListener {
         void onImgBtnAddTimePressed();
+        void onActionConfirmCompleted();
     }
 
     public PillInfoFragment() {

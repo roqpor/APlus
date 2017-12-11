@@ -125,6 +125,11 @@ public class EditPillFragment extends PillInfoFragment {
                 }
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                listener.onActionConfirmCompleted();
+            }
         }.execute(timeList);
     }
 }
