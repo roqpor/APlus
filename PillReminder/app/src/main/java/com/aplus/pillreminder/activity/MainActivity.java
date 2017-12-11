@@ -14,6 +14,7 @@ import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
 import com.aplus.pillreminder.fragment.PillBagFragment;
+import com.aplus.pillreminder.fragment.ReportFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if (HomeFragment.TAG.equals(currentFragmentTag)) {
                     HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                     fragment.loadPillWithRemindTime();
+                } else if(ReportFragment.TAG.equals(currentFragmentTag)){
+                    PillBagFragment fragment = (PillBagFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                 } else if (PillBagFragment.TAG.equals(currentFragmentTag)) {
                     PillBagFragment fragment = (PillBagFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                     fragment.loadPills();
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_report:
                 setTitle(R.string.title_report);
+                onNavigationReport();
                 break;
             case R.id.navigation_bag:
                 setTitle(R.string.title_bag);
@@ -114,6 +118,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragmentContainer, new HomeFragment(), HomeFragment.TAG)
+                .commit();
+    }
+
+    public void onNavigationReport() {
+        if (isCurrentFragment(ReportFragment.TAG)) {
+            return;
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragmentContainer, new ReportFragment(), ReportFragment.TAG)
                 .commit();
     }
 

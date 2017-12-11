@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -72,9 +73,11 @@ public class AddPillFragment extends PillInfoFragment {
                     @Override
                     protected Void doInBackground(List<RemindTime>[] lists) {
                         for (RemindTime remindTime : lists[0]) {
-//                            setAlarm(aLong.intValue(), remindTime.getHour(), remindTime.getMinute(), false, pill);
                             remindTime.setPillId(aLong.intValue());
-                            db.remindTimeDao().insert(remindTime); // return added remindTime's id
+                            setAlarm((int) db.remindTimeDao().insert(remindTime),
+                                    remindTime.getHour(),
+                                    remindTime.getMinute(),
+                                    false, pill);
                         }
                         return null;
                     }
@@ -121,8 +124,10 @@ public class AddPillFragment extends PillInfoFragment {
         calendar.set(Calendar.MILLISECOND, 0);
 
         if(!isRepeat){
+            assert alarmManager != null;
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         } else {
+            assert alarmManager != null;
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),3000, pendingIntent);
         }
     }

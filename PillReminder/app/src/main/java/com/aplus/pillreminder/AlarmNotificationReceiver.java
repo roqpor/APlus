@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.activity.MainActivity;
@@ -27,7 +28,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent mainActivity = new Intent(context, MainActivity.class);
 
         int uniqueId = intent.getIntExtra("id", -1);
         Pill pill = intent.getParcelableExtra("pill");
@@ -37,7 +37,11 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             uniqueId = (int) System.currentTimeMillis();
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, uniqueId, mainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent yesReceive = new Intent(context, YesReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                uniqueId,
+                yesReceive,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
 //        assert notificationManager != null;
 //        notificationManager.createNotificationChannel(mChannel);
@@ -45,12 +49,11 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 //        int messageCount = 3;
 
         Notification notification = new NotificationCompat.Builder(context, String.valueOf(uniqueId))
-                .setAutoCancel(false)
+                .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_pill)
-                .setContentTitle("Time to eat drugs.")
+                .addAction(R.drawable.ic_verify_16dp, "Yes", pendingIntent)
+                .setContentTitle(pill.getName())
                 .setContentText(pill.getDescribe())
-                .setContentIntent(pendingIntent)
-                .setBadgeIconType(BADGE_ICON_SMALL)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setFullScreenIntent(pendingIntent, true)

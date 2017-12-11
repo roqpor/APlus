@@ -18,6 +18,7 @@
         </activity>
 
         <receiver android:name=".AlarmNotificationReceiver" />
+        <receiver android:name=".YesReceiver" />
 
         <activity android:name=".activity.PillInfoActivity"></activity>
     </application>
