@@ -72,7 +72,7 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
 
         db = DatabaseManager.getInstance().getDb();
         timeList = new ArrayList<>();
-        listViewAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, timeList);
+        listViewAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_remind_time_list, timeList);
         actvNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, StaticData.PILL_NAMES);
         listener = (PillInfoFragmentListener) getActivity();
     }
@@ -155,7 +155,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
         // set creator
         listView.setMenuCreator(creator);
         listView.setOnMenuItemClickListener(this);
-        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
     }
 
     private int dp2px(int dp) {
