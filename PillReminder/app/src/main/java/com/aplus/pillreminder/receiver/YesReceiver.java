@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.database.DatabaseManager;
@@ -26,6 +27,7 @@ public class YesReceiver extends BroadcastReceiver {
         final Pill pill = intent.getParcelableExtra("pill");
         final int hour = intent.getIntExtra("hour", 0);
         final int minute = intent.getIntExtra("minute", 0);
+        Log.wtf("YesReceiver", hour + ", " + minute);
         notificationManager.cancel(uniqueId);
 
         new AsyncTask<Void, Void, EatLog>() {

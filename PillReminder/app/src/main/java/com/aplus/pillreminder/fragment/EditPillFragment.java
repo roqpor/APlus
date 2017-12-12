@@ -233,13 +233,12 @@ public class EditPillFragment extends PillInfoFragment {
 
     private void setNewAlarms() {
         for (RemindTime r : timeList) {
-            setAlarm(r.getId(), r.getHour(), r.getMinute(), false, pillWithRemindTime.getPill());
+            setAlarm(r.getId(), r.getHour(), r.getMinute(), true, pillWithRemindTime.getPill());
         }
     }
 
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        Log.wtf("remindTime", hour + ", " + minute);
 
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
         myIntent.putExtra("id", uniqueId);
@@ -269,7 +268,7 @@ public class EditPillFragment extends PillInfoFragment {
             assert alarmManager != null;
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
-                    3000,
+                    1000*60*60*24,
                     pendingIntent);
         }
     }

@@ -121,7 +121,7 @@ public class AddPillFragment extends PillInfoFragment {
                 for (RemindTime remindTime : lists[0]) {
                     remindTime.setPillId(pill.getId());
                     int id = (int) db.remindTimeDao().insert(remindTime);
-                    setAlarm(id, remindTime.getHour(), remindTime.getMinute(), false, pill);
+                    setAlarm(id, remindTime.getHour(), remindTime.getMinute(), true, pill);
                 }
                 return null;
             }
@@ -168,10 +168,15 @@ public class AddPillFragment extends PillInfoFragment {
 
         if(!isRepeat){
             assert alarmManager != null;
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent);
         } else {
             assert alarmManager != null;
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),3000, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    1000*60*60*24,
+                    pendingIntent);
         }
     }
 }
