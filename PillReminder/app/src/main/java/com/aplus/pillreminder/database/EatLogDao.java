@@ -25,6 +25,9 @@ public interface EatLogDao {
     @Query("SELECT * FROM EatLog WHERE pillId = :pillId AND isTaken = 0 AND date BETWEEN :dayStart AND :dayEnd")
     List<EatLog> getNotTakenLogs(int pillId, Date dayStart, Date dayEnd);
 
+    @Query("SELECT * FROM EatLog WHERE pillId = :pillId AND isTaken = 0 AND date = :date")
+    EatLog getNotTakenLog(int pillId, Date date);
+
     @Insert
     void insert(List<EatLog> eatLogs);
 

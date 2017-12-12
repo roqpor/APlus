@@ -24,6 +24,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -158,23 +159,27 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
         }.execute();
     }
 
-    private void deleteAllNotTakenLogs(final Pill pill) {
-        new AsyncTask<Void, Void, List<EatLog>>() {
+    private void deleteAllNotTakenLogs(Pill pill) {
+        new AsyncTask<Pill, Void, List<EatLog>>() {
             @Override
-            protected List<EatLog> doInBackground(Void... voids) {
+            protected List<EatLog> doInBackground(Pill... pills) {
+                Calendar calendar = Calendar.getInstance();
+
                 // Date at 00:00.00
-                Date dayStart = new Date();
-                dayStart.setHours(0);
-                dayStart.setMinutes(0);
-                dayStart.setSeconds(0);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date dayStart = calendar.getTime();
 
                 // Date at 23:59.59
-                Date dayEnd = new Date();
-                dayEnd.setHours(23);
-                dayEnd.setMinutes(59);
-                dayEnd.setSeconds(59);
+                calendar.set(Calendar.HOUR_OF_DAY, 23);
+                calendar.set(Calendar.MINUTE, 59);
+                calendar.set(Calendar.SECOND, 59);
+                calendar.set(Calendar.MILLISECOND, 999);
+                Date dayEnd = calendar.getTime();
 
-                return db.eatLogDao().getNotTakenLogs(pill.getId(), dayStart, dayEnd);
+                return db.eatLogDao().getNotTakenLogs(pills[0].getId(), dayStart, dayEnd);
             }
 
             @Override
@@ -187,7 +192,7 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
                     }
                 }.execute(eatLogs);
             }
-        }.execute();
+        }.execute(pill);
     }
 
     private void cancelAlarms(List<RemindTime> remindTimes) {
