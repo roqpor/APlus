@@ -1,6 +1,8 @@
 package com.aplus.pillreminder.fragment;
 
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -207,9 +209,13 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     private void cancelOldAlarms() {
+
+        NotificationManager nMgr = (NotificationManager)EditPillFragment.this
+                .getActivity()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
         for (RemindTime r : pillWithRemindTime.getRemindTimeList()) {
-            // TODO
-            // cancel()
+            nMgr.cancel(r.getPillId());
         }
     }
 
