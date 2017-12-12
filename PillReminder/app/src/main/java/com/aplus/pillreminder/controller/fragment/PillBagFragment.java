@@ -1,6 +1,10 @@
 package com.aplus.pillreminder.controller.fragment;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +22,7 @@ import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.model.RemindTime;
+import com.aplus.pillreminder.receiver.AlarmNotificationReceiver;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -45,7 +50,6 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
     }
 
     public PillBagFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -196,9 +200,15 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
     }
 
     private void cancelAlarms(List<RemindTime> remindTimes) {
+        AlarmManager alarmManager =
+                (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent =
+                new Intent(getActivity(), AlarmNotificationReceiver.class);
+
         for (RemindTime r : remindTimes) {
-            // TODO
-            // cancel()
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), r.getId(), intent, 0);
+            alarmManager.cancel(pendingIntent);
         }
     }
 }

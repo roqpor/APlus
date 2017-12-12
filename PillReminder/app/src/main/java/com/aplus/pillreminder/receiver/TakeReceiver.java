@@ -29,7 +29,8 @@ public class TakeReceiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(final Context context, Intent intent) {
-        final NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager notificationManager =
+                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         final int id = (int)SystemClock.currentThreadTimeMillis();
 

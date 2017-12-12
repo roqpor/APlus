@@ -62,7 +62,6 @@ public abstract class PillInfoFragment extends Fragment implements SwipeMenuList
     }
 
     public PillInfoFragment() {
-        // Required empty public constructor
     }
 
     @Override

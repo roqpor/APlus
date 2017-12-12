@@ -36,7 +36,6 @@ public class EditPillFragment extends PillInfoFragment {
     private String oldName;
 
     public EditPillFragment() {
-        // Required empty public constructor
     }
 
     public EditPillFragment newInstance(PillWithRemindTime pillWithRemindTime) {
@@ -265,8 +264,11 @@ public class EditPillFragment extends PillInfoFragment {
 
     private void cancelOldAlarms() {
 
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), AlarmNotificationReceiver.class);
+        AlarmManager alarmManager =
+                (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent =
+                new Intent(getActivity(), AlarmNotificationReceiver.class);
 
         for (RemindTime r : pillWithRemindTime.getRemindTimeList()) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), r.getId(), intent, 0);
@@ -281,7 +283,8 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager =
+                (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
         myIntent.putExtra("id", uniqueId);

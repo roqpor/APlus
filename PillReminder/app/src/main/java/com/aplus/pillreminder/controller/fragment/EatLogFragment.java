@@ -39,7 +39,6 @@ public class EatLogFragment extends Fragment {
     private PillReminderDb db;
 
     public EatLogFragment() {
-        // Required empty public constructor
     }
 
     public EatLogFragment newInstance(long date) {

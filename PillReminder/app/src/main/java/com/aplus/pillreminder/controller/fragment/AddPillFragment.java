@@ -31,7 +31,6 @@ public class AddPillFragment extends PillInfoFragment {
     private Pill pill;
 
     public AddPillFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -39,7 +38,6 @@ public class AddPillFragment extends PillInfoFragment {
         super.onCreate(savedInstanceState);
         pill = new Pill();
     }
-
 
     @Override
     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
@@ -136,12 +134,12 @@ public class AddPillFragment extends PillInfoFragment {
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
-        Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
-        myIntent.putExtra("id", uniqueId);
-        myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL_ID, pill.getId());
-        myIntent.putExtra("hour", hour);
-        myIntent.putExtra("minute", minute);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, myIntent, 0);
+        Intent alarmReceiverIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
+        alarmReceiverIntent.putExtra("id", uniqueId);
+        alarmReceiverIntent.putExtra(AlarmNotificationReceiver.KEY_PILL_ID, pill.getId());
+        alarmReceiverIntent.putExtra("hour", hour);
+        alarmReceiverIntent.putExtra("minute", minute);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, alarmReceiverIntent, 0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());

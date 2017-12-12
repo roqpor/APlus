@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
     private List<Pill> pillsMorning, pillsAfternoon, pillsEvening, pillsNight;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override

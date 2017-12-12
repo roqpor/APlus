@@ -30,7 +30,8 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(final Context context, Intent intent) {
-        final NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager notificationManager =
+                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         final int uniqueId = intent.getIntExtra("id", -1);
         int pillId = intent.getIntExtra(KEY_PILL_ID, 0);
