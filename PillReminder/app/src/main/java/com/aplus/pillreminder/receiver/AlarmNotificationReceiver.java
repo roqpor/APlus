@@ -30,6 +30,8 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
         int uniqueId = intent.getIntExtra("id", -1);
         Pill pill = intent.getParcelableExtra(KEY_PILL);
+        int hour = intent.getIntExtra("hour", 0);
+        int minute = intent.getIntExtra("minute", 0);
 
         if(uniqueId == -1){
             Toast.makeText(context, "id equal -1", Toast.LENGTH_SHORT).show();
@@ -38,6 +40,8 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
         Intent yesReceive = new Intent(context, YesReceiver.class);
         yesReceive.putExtra("pill", pill);
+        yesReceive.putExtra("hour", hour);
+        yesReceive.putExtra("minute", minute);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 uniqueId,
                 yesReceive,

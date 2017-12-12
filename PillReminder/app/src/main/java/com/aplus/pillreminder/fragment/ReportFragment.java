@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 public class ReportFragment extends Fragment {
 
     public static String TAG = ReportFragment.class.getSimpleName();
+
     @BindView(R.id.container_report) FrameLayout container_report;
     private PillReminderDb db;
 
@@ -60,8 +61,8 @@ public class ReportFragment extends Fragment {
             @Override
             protected void onPostExecute(List<EatLog> eatLogs) {
                 for (EatLog e : eatLogs) {
-                    Log.i("EATLOGS", "Name="+e.getPillName()+
-                            ",Date="+e.getDate().getTime()+
+                    Log.wtf("EATLOGS", "Name="+e.getPillName()+
+                            ",Date="+e.getDate().toString()+
                             ",isTaken="+e.isTaken()+
                             ",pill_id="+e.getPillId());
                 }

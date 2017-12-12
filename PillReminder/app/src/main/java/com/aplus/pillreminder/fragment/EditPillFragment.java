@@ -67,9 +67,8 @@ public class EditPillFragment extends PillInfoFragment {
             insertNewEatLogs();
             updatePill();
             deleteOldRemindTimes();
-            insertNewRemindTimes();
             cancelOldAlarms();
-            setNewAlarms();
+            insertNewRemindTimes();
         }
     }
 
@@ -140,13 +139,15 @@ public class EditPillFragment extends PillInfoFragment {
             @Override
             protected Void doInBackground(List<RemindTime>[] lists) {
                 for (RemindTime r : lists[0]) {
-                    db.remindTimeDao().insert(r);
+                    int id = (int) db.remindTimeDao().insert(r);
+                    r.setId(id);
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                setNewAlarms();
                 listener.onActionConfirmCompleted();
             }
         }.execute(timeList);
@@ -231,20 +232,8 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     private void setNewAlarms() {
-        for (final RemindTime r : timeList) {
-            final int pillId = r.getPillId();
-            new AsyncTask<Void, Void, Pill>(){
-
-                @Override
-                protected Pill doInBackground(Void... voids) {
-                    return db.pillDao().loadPill(pillId);
-                }
-
-                @Override
-                protected void onPostExecute(Pill pill) {
-                    setAlarm(r.getId(), r.getHour(), r.getMinute(), false, pill);
-                }
-            }.execute();
+        for (RemindTime r : timeList) {
+            setAlarm(r.getId(), r.getHour(), r.getMinute(), false, pillWithRemindTime.getPill());
         }
     }
 
