@@ -1,5 +1,6 @@
 package com.aplus.pillreminder.receiver;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +18,15 @@ import java.util.Date;
 public class YesReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
         final PillReminderDb db = DatabaseManager.getInstance().getDb();
 
+        int uniqueId = intent.getIntExtra("uniqueId", 0);
         final Pill pill = intent.getParcelableExtra("pill");
         final int hour = intent.getIntExtra("hour", 0);
         final int minute = intent.getIntExtra("minute", 0);
+        notificationManager.cancel(uniqueId);
 
         new AsyncTask<Void, Void, EatLog>() {
             @Override

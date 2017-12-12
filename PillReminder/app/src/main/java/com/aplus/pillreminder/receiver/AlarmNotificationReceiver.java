@@ -18,6 +18,7 @@ import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.model.Pill;
 
+import static android.app.Notification.FLAG_AUTO_CANCEL;
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
@@ -40,6 +41,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         }
 
         Intent yesReceive = new Intent(context, YesReceiver.class);
+        yesReceive.putExtra("uniqueId", uniqueId);
         yesReceive.putExtra("pill", pill);
         yesReceive.putExtra("hour", hour);
         yesReceive.putExtra("minute", minute);
@@ -54,7 +56,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 //        int messageCount = 3;
 
         Notification notification = new NotificationCompat.Builder(context, String.valueOf(uniqueId))
-                .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_pill)
                 .addAction(R.drawable.ic_verify_16dp, "Yes", pendingIntent)
                 .setContentTitle(pill.getName())
@@ -62,19 +63,18 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setFullScreenIntent(pendingIntent, true)
-//                .setCustomHeadsUpContentView();
-//                .setNumber(messageCount)
                 .build();
 
-        try {
-            Uri notice = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), notice);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         if(GlobalVariable.getIsEnabled(context)) {
+
+            try {
+                Uri notice = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), notice);
+                r.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             Toast.makeText(context, GlobalVariable.getIsEnabled(context) + "", Toast.LENGTH_SHORT).show();
             notificationManager.notify(uniqueId, notification);
         }
