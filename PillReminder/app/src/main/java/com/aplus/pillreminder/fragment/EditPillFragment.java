@@ -1,13 +1,16 @@
 package com.aplus.pillreminder.fragment;
 
 
-import android.app.NotificationManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +20,10 @@ import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.model.RemindTime;
+import com.aplus.pillreminder.receiver.AlarmNotificationReceiver;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -210,19 +215,66 @@ public class EditPillFragment extends PillInfoFragment {
 
     private void cancelOldAlarms() {
 
-        NotificationManager nMgr = (NotificationManager)EditPillFragment.this
-                .getActivity()
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), AlarmNotificationReceiver.class);
 
         for (RemindTime r : pillWithRemindTime.getRemindTimeList()) {
-            nMgr.cancel(r.getPillId());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), r.getId(), intent, 0);
+            alarmManager.cancel(pendingIntent);
         }
     }
 
     private void setNewAlarms() {
-        for (RemindTime r : timeList) {
-            // TODO
-            // set()
+        for (final RemindTime r : timeList) {
+            final int pillId = r.getPillId();
+            new AsyncTask<Void, Void, Pill>(){
+
+                @Override
+                protected Pill doInBackground(Void... voids) {
+                    return db.pillDao().loadPill(pillId);
+                }
+
+                @Override
+                protected void onPostExecute(Pill pill) {
+                    setAlarm(r.getId(), r.getHour(), r.getMinute(), false, pill);
+                }
+            }.execute();
+        }
+    }
+
+    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Log.wtf("remindTime", hour + ", " + minute);
+
+        Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
+        myIntent.putExtra("id", uniqueId);
+        myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL, pill);
+        myIntent.putExtra("hour", hour);
+        myIntent.putExtra("minute", minute);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
+                uniqueId,
+                myIntent,
+                0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if(!isRepeat){
+            assert alarmManager != null;
+            alarmManager.set(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    pendingIntent);
+        } else {
+            assert alarmManager != null;
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    3000,
+                    pendingIntent);
         }
     }
 }

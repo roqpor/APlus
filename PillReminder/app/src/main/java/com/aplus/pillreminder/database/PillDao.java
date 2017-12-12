@@ -17,6 +17,9 @@ public interface PillDao {
     @Query("SELECT * FROM Pill")
     List<PillWithRemindTime> loadPillsWithRemindTimes();
 
+    @Query("SELECT * FROM Pill WHERE id = :pillId")
+    Pill loadPill(int pillId);
+
     @Insert
     long insert(Pill pill);
 
