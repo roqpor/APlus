@@ -161,10 +161,19 @@ public class AddPillFragment extends PillInfoFragment {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+
+        Date currentTime = calendar.getTime();
+
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+        Date setTime = calendar.getTime();
+
+        if (currentTime.getTime() > setTime.getTime()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
 
         if(!isRepeat){
             assert alarmManager != null;
