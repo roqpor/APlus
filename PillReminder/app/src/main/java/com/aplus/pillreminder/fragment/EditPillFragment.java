@@ -154,9 +154,9 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     private void deleteAllNotTakenLogs() {
-        new AsyncTask<Void, Void, List<EatLog>>() {
+        new AsyncTask<Pill, Void, List<EatLog>>() {
             @Override
-            protected List<EatLog> doInBackground(Void... voids) {
+            protected List<EatLog> doInBackground(Pill... pills) {
                 Calendar calendar = Calendar.getInstance();
 
                 // Date at 00:00.00
@@ -173,7 +173,7 @@ public class EditPillFragment extends PillInfoFragment {
                 calendar.set(Calendar.MILLISECOND, 999);
                 Date dayEnd = calendar.getTime();
 
-                return db.eatLogDao().getNotTakenLogs(dayStart, dayEnd);
+                return db.eatLogDao().getNotTakenLogs(pills[0].getId(), dayStart, dayEnd);
             }
 
             @Override
@@ -186,7 +186,7 @@ public class EditPillFragment extends PillInfoFragment {
                     }
                 }.execute(eatLogs);
             }
-        }.execute();
+        }.execute(pillWithRemindTime.getPill());
     }
 
     private void insertNewEatLogs() {
@@ -254,10 +254,19 @@ public class EditPillFragment extends PillInfoFragment {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+
+        Date currentTime = calendar.getTime();
+
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+        Date setTime = calendar.getTime();
+
+        if (currentTime.getTime() > setTime.getTime()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
 
         if(!isRepeat){
             assert alarmManager != null;
