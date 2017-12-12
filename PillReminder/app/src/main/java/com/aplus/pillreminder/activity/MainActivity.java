@@ -19,6 +19,7 @@ import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
 import com.aplus.pillreminder.fragment.PillBagFragment;
 import com.aplus.pillreminder.fragment.ReportFragment;
+import com.aplus.pillreminder.fragment.SettingFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.receiver.InsertEatLogReceiver;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_setting:
                 setTitle(R.string.title_setting);
+                onNavigationSetting();
                 break;
             case R.id.navigation_empty:
                 return false;
@@ -179,6 +181,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragmentContainer, new PillBagFragment(), PillBagFragment.TAG)
+                .commit();
+    }
+
+    public void onNavigationSetting() {
+        if (isCurrentFragment(SettingFragment.TAG)) {
+            return;
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragmentContainer, new SettingFragment(), SettingFragment.TAG)
                 .commit();
     }
 
