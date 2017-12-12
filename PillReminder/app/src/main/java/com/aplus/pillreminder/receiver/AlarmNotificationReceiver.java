@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.model.Pill;
 
@@ -73,6 +74,9 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             e.printStackTrace();
         }
 
-        notificationManager.notify(uniqueId, notification);
+        if(GlobalVariable.getIsEnabled(context)) {
+            Toast.makeText(context, GlobalVariable.getIsEnabled(context) + "", Toast.LENGTH_SHORT).show();
+            notificationManager.notify(uniqueId, notification);
+        }
     }
 }
