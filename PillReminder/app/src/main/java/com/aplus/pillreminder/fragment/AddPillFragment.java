@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.model.EatLog;
@@ -89,10 +88,12 @@ public class AddPillFragment extends PillInfoFragment {
         List<EatLog> eatLogs = new ArrayList<>();
 
         for (RemindTime remindTime : timeList) {
-            Date date = new Date();
-            date.setHours(remindTime.getHour());
-            date.setMinutes(remindTime.getMinute());
-            date.setSeconds(0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, remindTime.getHour());
+            calendar.set(Calendar.MINUTE, remindTime.getMinute());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date date = calendar.getTime();
 
             EatLog eatLog = new EatLog();
             eatLog.setDate(date);
@@ -134,7 +135,6 @@ public class AddPillFragment extends PillInfoFragment {
 
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        Log.wtf("remindTime", hour + ", " + minute);
 
 //        int importance = NotificationManager.IMPORTANCE_HIGH;
 //        NotificationChannel mChannel = new NotificationChannel(String.valueOf(uniqueId), "testtttt", importance);

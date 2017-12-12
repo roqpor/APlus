@@ -61,8 +61,8 @@ public class ReportFragment extends Fragment {
             protected void onPostExecute(List<EatLog> eatLogs) {
                 for (EatLog e : eatLogs) {
                     Log.i("EATLOGS", "Name="+e.getPillName()+
-                            ",Date="+e.getDate().toString()+
-                            ",Time="+e.getTime()+
+                            ",Date="+e.getDate().getTime()+
+                            ",isTaken="+e.isTaken()+
                             ",pill_id="+e.getPillId());
                 }
             }

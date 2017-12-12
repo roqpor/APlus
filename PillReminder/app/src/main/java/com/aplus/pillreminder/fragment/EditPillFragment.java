@@ -156,17 +156,21 @@ public class EditPillFragment extends PillInfoFragment {
         new AsyncTask<Void, Void, List<EatLog>>() {
             @Override
             protected List<EatLog> doInBackground(Void... voids) {
+                Calendar calendar = Calendar.getInstance();
+
                 // Date at 00:00.00
-                Date dayStart = new Date();
-                dayStart.setHours(0);
-                dayStart.setMinutes(0);
-                dayStart.setSeconds(0);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date dayStart = calendar.getTime();
 
                 // Date at 23:59.59
-                Date dayEnd = new Date();
-                dayEnd.setHours(23);
-                dayEnd.setMinutes(59);
-                dayEnd.setSeconds(59);
+                calendar.set(Calendar.HOUR_OF_DAY, 23);
+                calendar.set(Calendar.MINUTE, 59);
+                calendar.set(Calendar.SECOND, 59);
+                calendar.set(Calendar.MILLISECOND, 999);
+                Date dayEnd = calendar.getTime();
 
                 return db.eatLogDao().getNotTakenLogs(dayStart, dayEnd);
             }
@@ -189,10 +193,12 @@ public class EditPillFragment extends PillInfoFragment {
         Pill pill = pillWithRemindTime.getPill();
 
         for (RemindTime remindTime : timeList) {
-            Date date = new Date();
-            date.setHours(remindTime.getHour());
-            date.setMinutes(remindTime.getMinute());
-            date.setSeconds(0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, remindTime.getHour());
+            calendar.set(Calendar.MINUTE, remindTime.getMinute());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date date = calendar.getTime();
 
             EatLog eatLog = new EatLog();
             eatLog.setDate(date);
