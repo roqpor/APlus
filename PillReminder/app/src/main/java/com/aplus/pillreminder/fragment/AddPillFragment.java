@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.model.EatLog;
@@ -133,6 +134,7 @@ public class AddPillFragment extends PillInfoFragment {
 
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Log.wtf("remindTime", hour + ", " + minute);
 
 //        int importance = NotificationManager.IMPORTANCE_HIGH;
 //        NotificationChannel mChannel = new NotificationChannel(String.valueOf(uniqueId), "testtttt", importance);
@@ -145,7 +147,9 @@ public class AddPillFragment extends PillInfoFragment {
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
 //        myIntent.putExtra("notificationChannel", mChannel);
         myIntent.putExtra("id", uniqueId);
-        myIntent.putExtra("pill", pill);
+        myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL, pill);
+        myIntent.putExtra("hour", hour);
+        myIntent.putExtra("minute", minute);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, myIntent, 0);
 
         //cancel alarm

@@ -14,8 +14,6 @@ import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.EatLog;
-import com.unnamed.b.atv.model.TreeNode;
-import com.unnamed.b.atv.view.AndroidTreeView;
 
 import java.util.List;
 
@@ -46,15 +44,6 @@ public class ReportFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
         ButterKnife.bind(this, rootView);
-        TreeNode root = TreeNode.root();
-        TreeNode parent = new TreeNode("MyParentNode");
-        TreeNode child1 = new TreeNode("Ch1");
-        TreeNode child2 = new TreeNode("Ch2");
-        parent.addChildren(child1, child2);
-        root.addChild(parent);
-
-        AndroidTreeView tView = new AndroidTreeView(getActivity(), root);
-        container_report.addView(tView.getView());
 
         loadEatLogs();
 

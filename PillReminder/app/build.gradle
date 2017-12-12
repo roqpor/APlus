@@ -41,6 +41,4 @@ dependencies {
     implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
     // Color Picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.13'
-    //Android Tree View
-    implementation 'com.github.bmelnychuk:atv:1.2.+'
 }

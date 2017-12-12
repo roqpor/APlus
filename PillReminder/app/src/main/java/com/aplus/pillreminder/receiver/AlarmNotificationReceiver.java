@@ -21,13 +21,15 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
 
+    public static final String KEY_PILL = "pill";
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int uniqueId = intent.getIntExtra("id", -1);
-        Pill pill = intent.getParcelableExtra("pill");
+        Pill pill = intent.getParcelableExtra(KEY_PILL);
 
         if(uniqueId == -1){
             Toast.makeText(context, "id equal -1", Toast.LENGTH_SHORT).show();
@@ -35,6 +37,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         }
 
         Intent yesReceive = new Intent(context, YesReceiver.class);
+        yesReceive.putExtra("pill", pill);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 uniqueId,
                 yesReceive,
