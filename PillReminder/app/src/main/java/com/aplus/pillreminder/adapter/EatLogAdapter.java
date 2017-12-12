@@ -1,5 +1,6 @@
 package com.aplus.pillreminder.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EatLogAdapter extends RecyclerView.Adapter<EatLogAdapter.ViewHolder> {
+    private Context context;
     private List<EatLog> data;
 
-    public EatLogAdapter() {
+    public EatLogAdapter(Context context) {
+        this.context = context;
         this.data = new ArrayList<>();
     }
 
@@ -37,6 +40,18 @@ public class EatLogAdapter extends RecyclerView.Adapter<EatLogAdapter.ViewHolder
         holder.tvTime.setText(eatLog.getTime());
         holder.tvName.setText(eatLog.getPillName());
         holder.tvDose.setText(String.valueOf(eatLog.getDose()));
+
+        if (eatLog.isTaken()) {
+            setTextColor(holder, context.getResources().getColor(R.color.colorGreen));
+        } else {
+            setTextColor(holder, context.getResources().getColor(R.color.colorRed));
+        }
+    }
+
+    private void setTextColor(ViewHolder holder, int color) {
+        holder.tvTime.setTextColor(color);
+        holder.tvName.setTextColor(color);
+        holder.tvDose.setTextColor(color);
     }
 
     @Override

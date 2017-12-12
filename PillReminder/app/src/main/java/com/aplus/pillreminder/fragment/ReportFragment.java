@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
@@ -52,11 +51,8 @@ public class ReportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = DatabaseManager.getInstance().getDb();
         listDate = new ArrayList<>();
-        adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1,
-                listDate);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.item_date_list, listDate);
         listener = (ReportFragmentListener) getActivity();
-
     }
 
     @Override
@@ -70,14 +66,6 @@ public class ReportFragment extends Fragment {
         loadEatLogs();
 
         return rootView;
-    }
-
-    private ArrayList<String> reverse(List<String> listDate){
-        ArrayList<String> newListDate = new ArrayList<>();
-        for(int i = listDate.size() - 1 ; i >= 0; i--){
-            newListDate.add(listDate.get(i));
-        }
-        return newListDate;
     }
 
     private void setup() {
@@ -118,7 +106,6 @@ public class ReportFragment extends Fragment {
                     }
                 }
 
-                listDate = reverse(listDate);
                 adapter.notifyDataSetChanged();
             }
         }.execute();

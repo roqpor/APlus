@@ -54,8 +54,8 @@ public class EatLogFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = DatabaseManager.getInstance().getDb();
-        adapterMissed = new EatLogAdapter();
-        adapterTaken = new EatLogAdapter();
+        adapterMissed = new EatLogAdapter(getActivity());
+        adapterTaken = new EatLogAdapter(getActivity());
         listMissed = new ArrayList<>();
         listTaken = new ArrayList<>();
         date = getArguments().getLong(KEY_DATE);
