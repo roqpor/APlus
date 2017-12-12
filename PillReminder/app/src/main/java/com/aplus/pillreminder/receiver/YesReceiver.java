@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.aplus.pillreminder.database.DatabaseManager;
@@ -40,14 +39,29 @@ public class YesReceiver extends BroadcastReceiver {
 
             @Override
             protected void onPostExecute(EatLog eatLog) {
-                new AsyncTask<EatLog, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(EatLog... eatLogs) {
-                        eatLogs[0].setTaken(true);
-                        db.eatLogDao().update(eatLogs[0]);
-                        return null;
-                    }
-                }.execute(eatLog);
+                int quantity = pill.getQuantity();
+                int dose = pill.getDose();
+                if (quantity < dose) {
+                    // TODO: send notification "not enough pill"
+                } else {
+                    pill.setQuantity(quantity - dose);
+                    new AsyncTask<Pill, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Pill... pills) {
+                            db.pillDao().update(pills[0]);
+                            return null;
+                        }
+                    }.execute(pill);
+
+                    new AsyncTask<EatLog, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(EatLog... eatLogs) {
+                            eatLogs[0].setTaken(true);
+                            db.eatLogDao().update(eatLogs[0]);
+                            return null;
+                        }
+                    }.execute(eatLog);
+                }
             }
         }.execute();
     }
