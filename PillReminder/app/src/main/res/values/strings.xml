@@ -16,4 +16,7 @@
     <string name="night">Night</string>
     <string name="missed">Missed</string>
     <string name="taken">Taken</string>
+    <string name="notification">การแจ้งเตือน</string>
+    <string name="on">เปิด</string>
+    <string name="off">ปิด</string>
 </resources>
