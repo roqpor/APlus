@@ -247,10 +247,11 @@ public class EditPillFragment extends PillInfoFragment {
         myIntent.putExtra("hour", hour);
         myIntent.putExtra("minute", minute);
 
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
                 uniqueId,
                 myIntent,
-                0);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
