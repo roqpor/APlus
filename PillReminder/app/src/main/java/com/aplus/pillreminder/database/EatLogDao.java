@@ -16,8 +16,11 @@ import java.util.List;
 @TypeConverters({DateConverter.class})
 public interface EatLogDao {
 
-    @Query("SELECT * FROM EatLog")
+    @Query("SELECT * FROM EatLog ORDER BY date DESC")
     List<EatLog> getAll();
+
+    @Query("SELECT * FROM EatLog WHERE date BETWEEN :dayStart AND :dayEnd ORDER BY date")
+    List<EatLog> getEatLogs(Date dayStart, Date dayEnd);
 
     @Query("SELECT * FROM EatLog WHERE isTaken = 0 AND date BETWEEN :dayStart AND :dayEnd")
     List<EatLog> getNotTakenLogs(Date dayStart, Date dayEnd);

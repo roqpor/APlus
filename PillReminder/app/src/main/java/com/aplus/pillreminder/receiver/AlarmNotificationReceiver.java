@@ -75,6 +75,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         }
 
         if(GlobalVariable.getIsEnabled(context)) {
+            Toast.makeText(context, GlobalVariable.getIsEnabled(context) + "", Toast.LENGTH_SHORT).show();
             notificationManager.notify(uniqueId, notification);
         }
     }
