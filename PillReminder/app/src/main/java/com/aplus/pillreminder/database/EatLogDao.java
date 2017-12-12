@@ -22,6 +22,9 @@ public interface EatLogDao {
     @Query("SELECT * FROM EatLog WHERE date BETWEEN :dayStart AND :dayEnd ORDER BY date")
     List<EatLog> getEatLogs(Date dayStart, Date dayEnd);
 
+    @Query("SELECT * FROM EatLog WHERE pillId = :pillId AND isTaken = 1 AND date BETWEEN :dayStart AND :dayEnd")
+    List<EatLog> getTakenLogs(int pillId, Date dayStart, Date dayEnd);
+
     @Query("SELECT * FROM EatLog WHERE pillId = :pillId AND isTaken = 0 AND date BETWEEN :dayStart AND :dayEnd")
     List<EatLog> getNotTakenLogs(int pillId, Date dayStart, Date dayEnd);
 

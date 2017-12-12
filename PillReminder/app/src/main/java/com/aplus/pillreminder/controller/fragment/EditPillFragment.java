@@ -33,6 +33,7 @@ public class EditPillFragment extends PillInfoFragment {
 
     public static final String KEY_PILL_WITH_REMIND_TIME = "pillInfoWithRemindTime";
     private PillWithRemindTime pillWithRemindTime;
+    private String oldName;
 
     public EditPillFragment() {
         // Required empty public constructor
@@ -50,6 +51,7 @@ public class EditPillFragment extends PillInfoFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pillWithRemindTime = getArguments().getParcelable(KEY_PILL_WITH_REMIND_TIME);
+        oldName = pillWithRemindTime.getPill().getName();
     }
 
     @Override
@@ -189,34 +191,76 @@ public class EditPillFragment extends PillInfoFragment {
     }
 
     private void insertNewEatLogs() {
-        List<EatLog> eatLogs = new ArrayList<>();
-        Pill pill = pillWithRemindTime.getPill();
-
-        for (RemindTime remindTime : timeList) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, remindTime.getHour());
-            calendar.set(Calendar.MINUTE, remindTime.getMinute());
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            Date date = calendar.getTime();
-
-            EatLog eatLog = new EatLog();
-            eatLog.setDate(date);
-            eatLog.setTaken(false);
-            eatLog.setPillId(pill.getId());
-            eatLog.setPillName(pill.getName());
-            eatLog.setDose(pill.getDose());
-
-            eatLogs.add(eatLog);
-        }
-
-        new AsyncTask<List<EatLog>, Void, Void>() {
+        new AsyncTask<Pill, Void, List<EatLog>>() {
             @Override
-            protected Void doInBackground(List<EatLog>[] lists) {
-                db.eatLogDao().insert(lists[0]);
-                return null;
+            protected List<EatLog> doInBackground(Pill... pills) {
+                Calendar calendar = Calendar.getInstance();
+
+                // Date at 00:00.00
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date dayStart = calendar.getTime();
+
+                // Date at 23:59.59
+                calendar.set(Calendar.HOUR_OF_DAY, 23);
+                calendar.set(Calendar.MINUTE, 59);
+                calendar.set(Calendar.SECOND, 59);
+                calendar.set(Calendar.MILLISECOND, 999);
+                Date dayEnd = calendar.getTime();
+
+                return db.eatLogDao().getTakenLogs(pills[0].getId(), dayStart, dayEnd);
             }
-        }.execute(eatLogs);
+
+            @Override
+            protected void onPostExecute(List<EatLog> takenEatLogs) {
+                List<EatLog> eatLogs = new ArrayList<>();
+                addEatLogs(eatLogs, takenEatLogs);
+                new AsyncTask<List<EatLog>, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(List<EatLog>[] lists) {
+                        db.eatLogDao().insert(lists[0]);
+                        return null;
+                    }
+                }.execute(eatLogs);
+            }
+        }.execute(pillWithRemindTime.getPill());
+    }
+
+    private void addEatLogs(List<EatLog> eatLogs, List<EatLog> takenEatLogs) {
+        Pill pill = pillWithRemindTime.getPill();
+        for (RemindTime remindTime : timeList) {
+
+            boolean isDuplicate = false;
+            int remindTimeHour = remindTime.getHour();
+            int remindTimeMinute = remindTime.getMinute();
+
+            for (EatLog takenEatLog : takenEatLogs) {
+                Date date = takenEatLog.getDate();
+                if (remindTimeHour == date.getHours() && remindTimeMinute == date.getMinutes()) {
+                    isDuplicate = true;
+                }
+            }
+
+            if (!isDuplicate) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, remindTime.getHour());
+                calendar.set(Calendar.MINUTE, remindTime.getMinute());
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date date = calendar.getTime();
+
+                EatLog eatLog = new EatLog();
+                eatLog.setDate(date);
+                eatLog.setTaken(false);
+                eatLog.setPillId(pill.getId());
+                eatLog.setPillName(pill.getName());
+                eatLog.setDose(pill.getDose());
+
+                eatLogs.add(eatLog);
+            }
+        }
     }
 
     private void cancelOldAlarms() {
