@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.aplus.pillreminder.InsertEatLogReceiver;
+import com.aplus.pillreminder.receiver.InsertEatLogReceiver;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                     fragment.loadPillWithRemindTime();
                 } else if(ReportFragment.TAG.equals(currentFragmentTag)){
-                    PillBagFragment fragment = (PillBagFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    ReportFragment fragment = (ReportFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    // TODO
                 } else if (PillBagFragment.TAG.equals(currentFragmentTag)) {
                     PillBagFragment fragment = (PillBagFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                     fragment.loadPills();

@@ -17,9 +17,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmNotificationReceiver" />
-        <receiver android:name=".YesReceiver" />
-        <receiver android:name=".InsertEatLogReceiver" />
+        <receiver android:name=".receiver.AlarmNotificationReceiver" />
+        <receiver android:name=".receiver.YesReceiver" />
+        <receiver android:name=".receiver.InsertEatLogReceiver" />
 
         <activity android:name=".activity.PillInfoActivity"></activity>
     </application>

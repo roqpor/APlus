@@ -12,11 +12,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.aplus.pillreminder.AlarmNotificationReceiver;
+import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
+import com.aplus.pillreminder.receiver.AlarmNotificationReceiver;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -46,10 +49,12 @@ public class AddPillFragment extends PillInfoFragment {
 
     @Override
     public void onActionConfirm() {
-        insertPillWithTimes();
+        if (validate()) {
+            insertPill();
+        }
     }
 
-    private void insertPillWithTimes() {
+    private boolean validate() {
         pill.setName(actvName.getText().toString());
         pill.setDescribe(etDescribe.getText().toString());
         try {
@@ -57,41 +62,76 @@ public class AddPillFragment extends PillInfoFragment {
             pill.setDose(Integer.parseInt(etDose.getText().toString()));
         } catch (NumberFormatException e) {
             Toast.makeText(getActivity(), "Please enter quantity.", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+        return true;
+    }
 
-        new AsyncTask<Void, Void, Long>() {
+    private void insertPill() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Long doInBackground(Void... voids) {
-                return db.pillDao().insert(pill);
+            protected Void doInBackground(Void... voids) {
+                int id = (int) db.pillDao().insert(pill);
+                pill.setId(id);
+                return null;
             }
 
             @Override
-            protected void onPostExecute(final Long aLong) {
-                new AsyncTask<List<RemindTime>, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(List<RemindTime>[] lists) {
-                        for (RemindTime remindTime : lists[0]) {
-                            remindTime.setPillId(aLong.intValue());
-                            setAlarm((int) db.remindTimeDao().insert(remindTime),
-                                    remindTime.getHour(),
-                                    remindTime.getMinute(),
-                                    false, pill);
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        listener.onActionConfirmCompleted();
-                    }
-                }.execute(timeList);
+            protected void onPostExecute(Void aVoid) {
+                insertEatLogs();
+                insertRemindTimes();
             }
         }.execute();
     }
 
-    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
+    private void insertEatLogs() {
+        List<EatLog> eatLogs = new ArrayList<>();
 
+        for (RemindTime remindTime : timeList) {
+            Date date = new Date();
+            date.setHours(remindTime.getHour());
+            date.setMinutes(remindTime.getMinute());
+            date.setSeconds(0);
+
+            EatLog eatLog = new EatLog();
+            eatLog.setDate(date);
+            eatLog.setTaken(false);
+            eatLog.setPillId(pill.getId());
+            eatLog.setPillName(pill.getName());
+            eatLog.setDose(pill.getDose());
+
+            eatLogs.add(eatLog);
+        }
+
+        new AsyncTask<List<EatLog>, Void, Void>() {
+            @Override
+            protected Void doInBackground(List<EatLog>[] lists) {
+                db.eatLogDao().insert(lists[0]);
+                return null;
+            }
+        }.execute(eatLogs);
+    }
+
+    private void insertRemindTimes() {
+        new AsyncTask<List<RemindTime>, Void, Void>() {
+            @Override
+            protected Void doInBackground(List<RemindTime>[] lists) {
+                for (RemindTime remindTime : lists[0]) {
+                    remindTime.setPillId(pill.getId());
+                    int id = (int) db.remindTimeDao().insert(remindTime);
+//                    setAlarm(id, remindTime.getHour(), remindTime.getMinute(), false, pill);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                listener.onActionConfirmCompleted();
+            }
+        }.execute(timeList);
+    }
+
+    private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
 //        int importance = NotificationManager.IMPORTANCE_HIGH;

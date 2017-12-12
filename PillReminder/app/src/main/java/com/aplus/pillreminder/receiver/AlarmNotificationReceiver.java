@@ -1,4 +1,4 @@
-package com.aplus.pillreminder;
+package com.aplus.pillreminder.receiver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.model.Pill;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;

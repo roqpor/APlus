@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.model.RemindTime;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,9 +55,13 @@ public class EditPillFragment extends PillInfoFragment {
 
     @Override
     public void onActionConfirm() {
-        updatePill();
-        deleteOldRemindTimes();
-        insertNewRemindTimes();
+        if (validate()) {
+            deleteAllNotTakenLogs();
+            insertNewEatLogs();
+            updatePill();
+            deleteOldRemindTimes();
+            insertNewRemindTimes();
+        }
     }
 
     @Override
@@ -83,7 +90,7 @@ public class EditPillFragment extends PillInfoFragment {
         }
     }
 
-    private void updatePill() {
+    private boolean validate() {
         Pill pill = pillWithRemindTime.getPill();
         pill.setName(actvName.getText().toString());
         pill.setDescribe(etDescribe.getText().toString());
@@ -92,16 +99,19 @@ public class EditPillFragment extends PillInfoFragment {
             pill.setDose(Integer.parseInt(etDose.getText().toString()));
         } catch (NumberFormatException e) {
             Toast.makeText(getActivity(), "Please enter quantity.", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
+        return true;
+    }
 
+    private void updatePill() {
         new AsyncTask<Pill, Void, Void>() {
             @Override
             protected Void doInBackground(Pill... pills) {
                 db.pillDao().update(pills[0]);
                 return null;
             }
-        }.execute(pill);
+        }.execute(pillWithRemindTime.getPill());
     }
 
     private void deleteOldRemindTimes() {
@@ -131,5 +141,66 @@ public class EditPillFragment extends PillInfoFragment {
                 listener.onActionConfirmCompleted();
             }
         }.execute(timeList);
+    }
+
+    private void deleteAllNotTakenLogs() {
+        new AsyncTask<Void, Void, List<EatLog>>() {
+            @Override
+            protected List<EatLog> doInBackground(Void... voids) {
+                // Date at 00:00.00
+                Date dayStart = new Date();
+                dayStart.setHours(0);
+                dayStart.setMinutes(0);
+                dayStart.setSeconds(0);
+
+                // Date at 23:59.59
+                Date dayEnd = new Date();
+                dayEnd.setHours(23);
+                dayEnd.setMinutes(59);
+                dayEnd.setSeconds(59);
+
+                return db.eatLogDao().getNotTakenLogs(dayStart, dayEnd);
+            }
+
+            @Override
+            protected void onPostExecute(List<EatLog> eatLogs) {
+                new AsyncTask<List<EatLog>, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(List<EatLog>[] lists) {
+                        db.eatLogDao().delete(lists[0]);
+                        return null;
+                    }
+                }.execute(eatLogs);
+            }
+        }.execute();
+    }
+
+    private void insertNewEatLogs() {
+        List<EatLog> eatLogs = new ArrayList<>();
+        Pill pill = pillWithRemindTime.getPill();
+
+        for (RemindTime remindTime : timeList) {
+            Date date = new Date();
+            date.setHours(remindTime.getHour());
+            date.setMinutes(remindTime.getMinute());
+            date.setSeconds(0);
+
+            EatLog eatLog = new EatLog();
+            eatLog.setDate(date);
+            eatLog.setTaken(false);
+            eatLog.setPillId(pill.getId());
+            eatLog.setPillName(pill.getName());
+            eatLog.setDose(pill.getDose());
+
+            eatLogs.add(eatLog);
+        }
+
+        new AsyncTask<List<EatLog>, Void, Void>() {
+            @Override
+            protected Void doInBackground(List<EatLog>[] lists) {
+                db.eatLogDao().insert(lists[0]);
+                return null;
+            }
+        }.execute(eatLogs);
     }
 }

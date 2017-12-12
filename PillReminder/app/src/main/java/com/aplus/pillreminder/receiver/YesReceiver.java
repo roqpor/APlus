@@ -1,4 +1,4 @@
-package com.aplus.pillreminder;
+package com.aplus.pillreminder.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

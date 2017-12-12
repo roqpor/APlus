@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.adapter.PillInfoAdapter;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
+import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -22,6 +24,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -78,7 +81,9 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
                 break;
             case 1:
                 // delete pill
-                deletePill(pillWithRemindTime.getPill());
+                Pill pill = pillWithRemindTime.getPill();
+                deletePill(pill);
+                deleteAllNotTakenLogs(pill);
                 break;
         }
         // false : close the menu; true : not close the menu
@@ -150,6 +155,42 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
             @Override
             protected void onPostExecute(Pill pill) {
                 loadPills();
+            }
+        }.execute();
+    }
+
+    private void deleteAllNotTakenLogs(final Pill pill) {
+        Log.e("heyyyy", "pill_id="+pill.getId());
+        new AsyncTask<Void, Void, List<EatLog>>() {
+            @Override
+            protected List<EatLog> doInBackground(Void... voids) {
+                // Date at 00:00.00
+                Date dayStart = new Date();
+                dayStart.setHours(0);
+                dayStart.setMinutes(0);
+                dayStart.setSeconds(0);
+
+                // Date at 23:59.59
+                Date dayEnd = new Date();
+                dayEnd.setHours(23);
+                dayEnd.setMinutes(59);
+                dayEnd.setSeconds(59);
+
+                return db.eatLogDao().getNotTakenLogs(pill.getId(), dayStart, dayEnd);
+            }
+
+            @Override
+            protected void onPostExecute(List<EatLog> eatLogs) {
+                for (EatLog e : eatLogs) {
+                    Log.e("heyyyy", e.getPillName());
+                }
+                new AsyncTask<List<EatLog>, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(List<EatLog>[] lists) {
+                        db.eatLogDao().delete(lists[0]);
+                        return null;
+                    }
+                }.execute(eatLogs);
             }
         }.execute();
     }
