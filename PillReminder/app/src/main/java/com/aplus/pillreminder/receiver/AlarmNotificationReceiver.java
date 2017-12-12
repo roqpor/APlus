@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
