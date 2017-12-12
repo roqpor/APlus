@@ -10,8 +10,10 @@
     <string name="title_add">Add</string>
     <string name="title_bag">Pill Bag</string>
     <string name="title_setting">Setting</string>
-    <string name="morning">เช้า</string>
-    <string name="afternoon">กลางวัน</string>
-    <string name="evening">เย็น</string>
-    <string name="night">ค่ำ</string>
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
+    <string name="missed">Missed</string>
+    <string name="taken">Taken</string>
 </resources>

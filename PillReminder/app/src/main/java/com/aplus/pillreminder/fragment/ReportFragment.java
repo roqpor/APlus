@@ -51,7 +51,7 @@ public class ReportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = DatabaseManager.getInstance().getDb();
         listDate = new ArrayList<>();
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listDate);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.item_date_list, listDate);
         listener = (ReportFragmentListener) getActivity();
     }
 
