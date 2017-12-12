@@ -14,22 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.aplus.pillreminder.receiver.InsertEatLogReceiver;
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.fragment.HomeFragment;
 import com.aplus.pillreminder.fragment.PillBagFragment;
 import com.aplus.pillreminder.fragment.ReportFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
+import com.aplus.pillreminder.receiver.InsertEatLogReceiver;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, PillBagFragment.OnSwipeMenuClickListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ReportFragment.ReportFragmentListener, PillBagFragment.OnSwipeMenuClickListener {
 
     @BindView(R.id.navigation) BottomNavigationViewEx navigation;
 
@@ -184,5 +185,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private boolean isCurrentFragment(String tag) {
         String currentFragmentTag = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer).getTag();
         return tag.equals(currentFragmentTag);
+    }
+
+    @Override
+    public void onDateItemClicked(Date date) {
+        Intent intent = new Intent(MainActivity.this, ShowEatLogActivity.class);
+        startActivity(intent);
     }
 }

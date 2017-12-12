@@ -21,7 +21,8 @@
         <receiver android:name=".receiver.YesReceiver" />
         <receiver android:name=".receiver.InsertEatLogReceiver" />
 
-        <activity android:name=".activity.PillInfoActivity"></activity>
+        <activity android:name=".activity.PillInfoActivity" />
+        <activity android:name=".activity.ShowEatLogActivity"></activity>
     </application>
 
 </manifest>

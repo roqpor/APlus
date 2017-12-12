@@ -8,13 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.EatLog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,9 +32,15 @@ import butterknife.ButterKnife;
 public class ReportFragment extends Fragment {
 
     public static String TAG = ReportFragment.class.getSimpleName();
-
-    @BindView(R.id.container_report) FrameLayout container_report;
+    @BindView(R.id.listView) ListView listView;
+    private ArrayAdapter<String> adapter;
+    private List<String> listDate;
     private PillReminderDb db;
+    private ReportFragmentListener listener;
+
+    public interface ReportFragmentListener {
+        void onDateItemClicked(Date date);
+    }
 
     public ReportFragment() {
         // Required empty public constructor
@@ -38,6 +50,9 @@ public class ReportFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = DatabaseManager.getInstance().getDb();
+        listDate = new ArrayList<>();
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listDate);
+        listener = (ReportFragmentListener) getActivity();
     }
 
     @Override
@@ -46,9 +61,27 @@ public class ReportFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
         ButterKnife.bind(this, rootView);
 
+        setup();
+
         loadEatLogs();
 
         return rootView;
+    }
+
+    private void setup() {
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                try {
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+                    Date date = formatter.parse(listDate.get(position));
+                    listener.onDateItemClicked(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void loadEatLogs() {
@@ -60,12 +93,20 @@ public class ReportFragment extends Fragment {
 
             @Override
             protected void onPostExecute(List<EatLog> eatLogs) {
-                for (EatLog e : eatLogs) {
-                    Log.wtf("EATLOGS", "Name="+e.getPillName()+
-                            ",Date="+e.getDate().toString()+
-                            ",isTaken="+e.isTaken()+
-                            ",pill_id="+e.getPillId());
+                for (EatLog eatLog : eatLogs) {
+                    Log.wtf("EATLOGS", "Name="+eatLog.getPillName()+
+                            ",Date="+eatLog.getDate().toString()+
+                            ",isTaken="+eatLog.isTaken()+
+                            ",pill_id="+eatLog.getPillId());
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+                    String date = formatter.format(eatLog.getDate());
+                    if (!listDate.contains(date)) {
+                        listDate.add(date);
+                    }
                 }
+
+                adapter.notifyDataSetChanged();
             }
         }.execute();
     }
