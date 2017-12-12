@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onDateItemClicked(Date date) {
         Intent intent = new Intent(MainActivity.this, ShowEatLogActivity.class);
+        intent.putExtra(ShowEatLogActivity.KEY_DATE, date.getTime());
         startActivity(intent);
     }
 }
