@@ -1,7 +1,8 @@
-package com.aplus.pillreminder.activity;
+package com.aplus.pillreminder.controller.activity;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +17,10 @@ import android.view.MenuItem;
 
 import com.aplus.pillreminder.R;
 import com.aplus.pillreminder.database.DatabaseManager;
-import com.aplus.pillreminder.fragment.HomeFragment;
-import com.aplus.pillreminder.fragment.PillBagFragment;
-import com.aplus.pillreminder.fragment.ReportFragment;
-import com.aplus.pillreminder.fragment.SettingFragment;
+import com.aplus.pillreminder.controller.fragment.HomeFragment;
+import com.aplus.pillreminder.controller.fragment.PillBagFragment;
+import com.aplus.pillreminder.controller.fragment.ReportFragment;
+import com.aplus.pillreminder.controller.fragment.SettingFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.receiver.InsertEatLogReceiver;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -38,6 +39,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent mainActivity = getIntent();
+        int uniqueId = mainActivity.getIntExtra("uniqueId", -1);
+        if(uniqueId != -1){
+            notificationManager.cancel(uniqueId);
+        }
 
         if (isFirstRun()) {
             setInsertEatLogSchedule();

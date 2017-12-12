@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.activity.MainActivity;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
@@ -38,11 +37,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         final int hour = intent.getIntExtra("hour", 0);
         final int minute = intent.getIntExtra("minute", 0);
 
-//        if(uniqueId == -1){
-//            Toast.makeText(context, "id equal -1", Toast.LENGTH_SHORT).show();
-//            uniqueId = (int) System.currentTimeMillis();
-//        }
-
         final PillReminderDb db = DatabaseManager.getInstance().getDb();
 
         new AsyncTask<Integer, Void, Pill>() {
@@ -53,7 +47,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
             @Override
             protected void onPostExecute(Pill pill) {
-                Intent yesReceive = new Intent(context, YesReceiver.class);
+                Intent yesReceive = new Intent(context, TakeReceiver.class);
                 yesReceive.putExtra("uniqueId", uniqueId);
                 yesReceive.putExtra("pill", pill);
                 yesReceive.putExtra("hour", hour);
@@ -62,14 +56,10 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                         uniqueId,
                         yesReceive,
                         PendingIntent.FLAG_UPDATE_CURRENT);
-//        assert notificationManager != null;
-//        notificationManager.createNotificationChannel(mChannel);
-
-//        int messageCount = 3;
 
                 Notification notification = new NotificationCompat.Builder(context, String.valueOf(uniqueId))
                         .setSmallIcon(R.drawable.ic_pill)
-                        .addAction(R.drawable.ic_verify_16dp, "Yes", pendingIntent)
+                        .addAction(R.drawable.ic_verify_16dp, "Take.", pendingIntent)
                         .setContentTitle(pill.getName())
                         .setContentText(pill.getDescribe())
                         .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
@@ -87,7 +77,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(context, GlobalVariable.getIsEnabled(context) + "", Toast.LENGTH_SHORT).show();
                     notificationManager.notify(uniqueId, notification);
                 }
             }

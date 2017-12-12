@@ -1,4 +1,4 @@
-package com.aplus.pillreminder.fragment;
+package com.aplus.pillreminder.controller.fragment;
 
 
 import android.os.Bundle;

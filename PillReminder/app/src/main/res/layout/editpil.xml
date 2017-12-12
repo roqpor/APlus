@@ -8,7 +8,7 @@
 
 
     android:layout_alignParentBottom="false"
-    tools:context="com.aplus.pillreminder.fragment.PillBagFragment"
+    tools:context="com.aplus.pillreminder.controller.fragment.PillBagFragment"
     android:orientation="vertical"
 
     >

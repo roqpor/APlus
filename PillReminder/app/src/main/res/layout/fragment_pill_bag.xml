@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.aplus.pillreminder.fragment.PillBagFragment">
+    tools:context="com.aplus.pillreminder.controller.fragment.PillBagFragment">
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/listView"

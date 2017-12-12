@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".controller.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,11 +18,11 @@
         </activity>
 
         <receiver android:name=".receiver.AlarmNotificationReceiver" />
-        <receiver android:name=".receiver.YesReceiver" />
+        <receiver android:name=".receiver.TakeReceiver" />
         <receiver android:name=".receiver.InsertEatLogReceiver" />
 
-        <activity android:name=".activity.PillInfoActivity" />
-        <activity android:name=".activity.ShowEatLogActivity"></activity>
+        <activity android:name=".controller.activity.PillInfoActivity" />
+        <activity android:name=".controller.activity.ShowEatLogActivity"></activity>
     </application>
 
 </manifest>

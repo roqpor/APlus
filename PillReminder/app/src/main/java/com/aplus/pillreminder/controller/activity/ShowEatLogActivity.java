@@ -1,4 +1,4 @@
-package com.aplus.pillreminder.activity;
+package com.aplus.pillreminder.controller.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.fragment.EatLogFragment;
+import com.aplus.pillreminder.controller.fragment.EatLogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

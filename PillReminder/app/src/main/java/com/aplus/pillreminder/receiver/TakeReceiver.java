@@ -11,10 +11,9 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.activity.MainActivity;
+import com.aplus.pillreminder.controller.activity.MainActivity;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.EatLog;
@@ -25,7 +24,7 @@ import java.util.Date;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
-public class YesReceiver extends BroadcastReceiver {
+public class TakeReceiver extends BroadcastReceiver {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -35,25 +34,13 @@ public class YesReceiver extends BroadcastReceiver {
         final int id = (int)SystemClock.currentThreadTimeMillis();
 
         Intent mainActivity = new Intent(context, MainActivity.class);
+        mainActivity.putExtra("uniqueId", id);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
                 id,
                 mainActivity,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        final Notification notification = new NotificationCompat.Builder(context,
-                String.valueOf(SystemClock.currentThreadTimeMillis()))
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_warning_32dp)
-                .setContentTitle("Warning")
-                .setContentText("blaBla")
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                .setVisibility(VISIBILITY_PUBLIC)
-                .setFullScreenIntent(pendingIntent, true)
-                .addAction(R.drawable.ic_verify_16dp, "touched", pendingIntent)
-                .build();
-
-        Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
         final PillReminderDb db = DatabaseManager.getInstance().getDb();
 
         int uniqueId = intent.getIntExtra("uniqueId", 0);
@@ -61,6 +48,16 @@ public class YesReceiver extends BroadcastReceiver {
         final int hour = intent.getIntExtra("hour", 0);
         final int minute = intent.getIntExtra("minute", 0);
         notificationManager.cancel(uniqueId);
+
+        final Notification notification = new NotificationCompat.Builder(context,
+                String.valueOf(SystemClock.currentThreadTimeMillis()))
+                .setSmallIcon(R.drawable.ic_warning_32dp)
+                .setContentTitle("Warning")
+                .setContentText(pill.getName().concat(" is not enough to take."))
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setVisibility(VISIBILITY_PUBLIC)
+                .setFullScreenIntent(pendingIntent, true)
+                .build();
 
         new AsyncTask<Void, Void, EatLog>() {
 
@@ -85,7 +82,6 @@ public class YesReceiver extends BroadcastReceiver {
                 int quantity = pill.getQuantity();
                 int dose = pill.getDose();
                 if (quantity < dose) {
-                    // TODO: send notification "not enough pill"
                     notificationManager.notify(id, notification);
                 } else {
                     pill.setQuantity(quantity - dose);

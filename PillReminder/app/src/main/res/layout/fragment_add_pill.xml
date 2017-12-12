@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.aplus.pillreminder.fragment.AddPillFragment">
+    tools:context="com.aplus.pillreminder.controller.fragment.AddPillFragment">
 
     <ImageView
         android:id="@+id/imgPill"

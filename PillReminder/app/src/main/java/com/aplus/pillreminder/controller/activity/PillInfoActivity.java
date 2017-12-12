@@ -1,4 +1,4 @@
-package com.aplus.pillreminder.activity;
+package com.aplus.pillreminder.controller.activity;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.widget.TimePicker;
 
 import com.aplus.pillreminder.R;
-import com.aplus.pillreminder.fragment.AddPillFragment;
-import com.aplus.pillreminder.fragment.EditPillFragment;
-import com.aplus.pillreminder.fragment.PillInfoFragment;
-import com.aplus.pillreminder.fragment.TimePickerFragment;
+import com.aplus.pillreminder.controller.fragment.AddPillFragment;
+import com.aplus.pillreminder.controller.fragment.EditPillFragment;
+import com.aplus.pillreminder.controller.fragment.PillInfoFragment;
+import com.aplus.pillreminder.controller.fragment.TimePickerFragment;
 import com.aplus.pillreminder.model.PillWithRemindTime;
 import com.aplus.pillreminder.model.RemindTime;
 

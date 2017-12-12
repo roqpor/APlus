@@ -1,4 +1,4 @@
-package com.aplus.pillreminder.fragment;
+package com.aplus.pillreminder.controller.fragment;
 
 
 import android.app.AlarmManager;
@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.aplus.pillreminder.activity.MainActivity;
 import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.RemindTime;
@@ -137,28 +136,12 @@ public class AddPillFragment extends PillInfoFragment {
     private void setAlarm(int uniqueId, int hour, int minute, boolean isRepeat, Pill pill){
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
-//        int importance = NotificationManager.IMPORTANCE_HIGH;
-//        NotificationChannel mChannel = new NotificationChannel(String.valueOf(uniqueId), "testtttt", importance);
-//        mChannel.setDescription("Welcome to Notification Service");
-//        mChannel.enableLights(true);
-//        mChannel.enableVibration(true);
-//        mChannel.setShowBadge(true);
-//        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
-//        myIntent.putExtra("notificationChannel", mChannel);
         myIntent.putExtra("id", uniqueId);
         myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL_ID, pill.getId());
         myIntent.putExtra("hour", hour);
         myIntent.putExtra("minute", minute);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId, myIntent, 0);
-
-        //cancel alarm
-//        myIntent = new Intent(SetActivity.this, AlarmActivity.class);
-//        pendingIntent = PendingIntent.getActivity(CellManageAddShowActivity.this,
-//                id, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        pendingIntent.cancel();
-//        alarmManager.cancel(pendingIntent);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());

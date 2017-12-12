@@ -1,10 +1,9 @@
-package com.aplus.pillreminder.fragment;
+package com.aplus.pillreminder.controller.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,10 +93,6 @@ public class ReportFragment extends Fragment {
             @Override
             protected void onPostExecute(List<EatLog> eatLogs) {
                 for (EatLog eatLog : eatLogs) {
-                    Log.wtf("EATLOGS", "Name="+eatLog.getPillName()+
-                            ",Date="+eatLog.getDate().toString()+
-                            ",isTaken="+eatLog.isTaken()+
-                            ",pill_id="+eatLog.getPillId());
 
                     SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
                     String date = formatter.format(eatLog.getDate());
