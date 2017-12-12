@@ -71,7 +71,7 @@ public class ReportFragment extends Fragment {
             @Override
             protected void onPostExecute(List<EatLog> eatLogs) {
                 for (EatLog e : eatLogs) {
-                    Log.wtf("EATLOGS", "Name="+e.getPillName()+
+                    Log.i("EATLOGS", "Name="+e.getPillName()+
                             ",Date="+e.getDate().toString()+
                             ",Time="+e.getTime()+
                             ",pill_id="+e.getPillId());

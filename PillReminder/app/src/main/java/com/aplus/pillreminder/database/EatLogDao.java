@@ -5,8 +5,10 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.Update;
 
 import com.aplus.pillreminder.model.EatLog;
+import com.aplus.pillreminder.model.Pill;
 
 import java.util.Date;
 import java.util.List;
@@ -29,4 +31,7 @@ public interface EatLogDao {
 
     @Delete
     void delete(List<EatLog> eatLogs);
+
+    @Update
+    void update(EatLog eatLog);
 }

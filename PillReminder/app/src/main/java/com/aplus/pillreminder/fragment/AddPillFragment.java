@@ -119,7 +119,7 @@ public class AddPillFragment extends PillInfoFragment {
                 for (RemindTime remindTime : lists[0]) {
                     remindTime.setPillId(pill.getId());
                     int id = (int) db.remindTimeDao().insert(remindTime);
-//                    setAlarm(id, remindTime.getHour(), remindTime.getMinute(), false, pill);
+                    setAlarm(id, remindTime.getHour(), remindTime.getMinute(), false, pill);
                 }
                 return null;
             }
