@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 @Entity
-public class Pill implements Parcelable{
+public class Pill implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -24,7 +24,7 @@ public class Pill implements Parcelable{
     public Pill() {
     }
 
-    public Pill(Parcel in) {
+    protected Pill(Parcel in) {
         id = in.readInt();
         color = in.readInt();
         name = in.readString();
@@ -99,12 +99,12 @@ public class Pill implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(color);
-        dest.writeString(name);
-        dest.writeString(describe);
-        dest.writeInt(quantity);
-        dest.writeInt(dose);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(color);
+        parcel.writeString(name);
+        parcel.writeString(describe);
+        parcel.writeInt(quantity);
+        parcel.writeInt(dose);
     }
 }

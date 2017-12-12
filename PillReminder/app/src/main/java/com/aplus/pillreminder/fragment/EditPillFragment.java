@@ -61,6 +61,8 @@ public class EditPillFragment extends PillInfoFragment {
             updatePill();
             deleteOldRemindTimes();
             insertNewRemindTimes();
+            cancelOldAlarms();
+            setNewAlarms();
         }
     }
 
@@ -202,5 +204,19 @@ public class EditPillFragment extends PillInfoFragment {
                 return null;
             }
         }.execute(eatLogs);
+    }
+
+    private void cancelOldAlarms() {
+        for (RemindTime r : pillWithRemindTime.getRemindTimeList()) {
+            // TODO
+            // cancel()
+        }
+    }
+
+    private void setNewAlarms() {
+        for (RemindTime r : timeList) {
+            // TODO
+            // set()
+        }
     }
 }

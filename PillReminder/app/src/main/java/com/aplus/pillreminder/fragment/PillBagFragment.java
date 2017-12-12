@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.EatLog;
 import com.aplus.pillreminder.model.Pill;
 import com.aplus.pillreminder.model.PillWithRemindTime;
+import com.aplus.pillreminder.model.RemindTime;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -84,6 +84,7 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
                 Pill pill = pillWithRemindTime.getPill();
                 deletePill(pill);
                 deleteAllNotTakenLogs(pill);
+                cancelAlarms(pillWithRemindTime.getRemindTimeList());
                 break;
         }
         // false : close the menu; true : not close the menu
@@ -142,8 +143,6 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
     }
 
     private void deletePill(final Pill pill) {
-        // TODO: delete reminder schedule
-
         new AsyncTask<Void, Void, Pill>() {
             @Override
             protected Pill doInBackground(Void... voids) {
@@ -160,7 +159,6 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
     }
 
     private void deleteAllNotTakenLogs(final Pill pill) {
-        Log.e("heyyyy", "pill_id="+pill.getId());
         new AsyncTask<Void, Void, List<EatLog>>() {
             @Override
             protected List<EatLog> doInBackground(Void... voids) {
@@ -181,9 +179,6 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
 
             @Override
             protected void onPostExecute(List<EatLog> eatLogs) {
-                for (EatLog e : eatLogs) {
-                    Log.e("heyyyy", e.getPillName());
-                }
                 new AsyncTask<List<EatLog>, Void, Void>() {
                     @Override
                     protected Void doInBackground(List<EatLog>[] lists) {
@@ -193,5 +188,12 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
                 }.execute(eatLogs);
             }
         }.execute();
+    }
+
+    private void cancelAlarms(List<RemindTime> remindTimes) {
+        for (RemindTime r : remindTimes) {
+            // TODO
+            // cancel()
+        }
     }
 }

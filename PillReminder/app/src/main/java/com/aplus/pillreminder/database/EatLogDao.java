@@ -8,7 +8,6 @@ import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 
 import com.aplus.pillreminder.model.EatLog;
-import com.aplus.pillreminder.model.Pill;
 
 import java.util.Date;
 import java.util.List;
