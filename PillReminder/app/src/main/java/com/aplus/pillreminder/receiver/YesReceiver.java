@@ -1,13 +1,20 @@
 package com.aplus.pillreminder.receiver;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.os.Build;
+import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.activity.MainActivity;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.EatLog;
@@ -16,10 +23,36 @@ import com.aplus.pillreminder.model.Pill;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.app.Notification.VISIBILITY_PUBLIC;
+
 public class YesReceiver extends BroadcastReceiver {
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onReceive(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+    public void onReceive(final Context context, Intent intent) {
+        final NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final int id = (int)SystemClock.currentThreadTimeMillis();
+
+        Intent mainActivity = new Intent(context, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                id,
+                mainActivity,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        final Notification notification = new NotificationCompat.Builder(context,
+                String.valueOf(SystemClock.currentThreadTimeMillis()))
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_warning_32dp)
+                .setContentTitle("Warning")
+                .setContentText("blaBla")
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setVisibility(VISIBILITY_PUBLIC)
+                .setFullScreenIntent(pendingIntent, true)
+                .addAction(R.drawable.ic_verify_16dp, "touched", pendingIntent)
+                .build();
+
         Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
         final PillReminderDb db = DatabaseManager.getInstance().getDb();
 
@@ -27,10 +60,14 @@ public class YesReceiver extends BroadcastReceiver {
         final Pill pill = intent.getParcelableExtra("pill");
         final int hour = intent.getIntExtra("hour", 0);
         final int minute = intent.getIntExtra("minute", 0);
-        Log.wtf("YesReceiver", hour + ", " + minute);
         notificationManager.cancel(uniqueId);
 
         new AsyncTask<Void, Void, EatLog>() {
+
+            @Override
+            protected void onPreExecute() {
+            }
+
             @Override
             protected EatLog doInBackground(Void... voids) {
                 Calendar calendar = Calendar.getInstance();
@@ -49,6 +86,7 @@ public class YesReceiver extends BroadcastReceiver {
                 int dose = pill.getDose();
                 if (quantity < dose) {
                     // TODO: send notification "not enough pill"
+                    notificationManager.notify(id, notification);
                 } else {
                     pill.setQuantity(quantity - dose);
                     new AsyncTask<Pill, Void, Void>() {

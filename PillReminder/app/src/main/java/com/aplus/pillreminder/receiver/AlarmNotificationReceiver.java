@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
+import com.aplus.pillreminder.activity.MainActivity;
 import com.aplus.pillreminder.database.DatabaseManager;
 import com.aplus.pillreminder.database.PillReminderDb;
 import com.aplus.pillreminder.model.Pill;
@@ -61,7 +62,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                         uniqueId,
                         yesReceive,
                         PendingIntent.FLAG_UPDATE_CURRENT);
-
 //        assert notificationManager != null;
 //        notificationManager.createNotificationChannel(mChannel);
 
