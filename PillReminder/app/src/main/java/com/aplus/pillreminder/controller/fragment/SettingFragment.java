@@ -26,7 +26,6 @@ public class SettingFragment extends Fragment {
     Switch sw_setting_notification;
 
     public SettingFragment() {
-        // Required empty public constructor
     }
 
 

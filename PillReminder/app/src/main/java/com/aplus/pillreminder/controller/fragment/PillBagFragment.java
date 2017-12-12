@@ -67,7 +67,6 @@ public class PillBagFragment extends Fragment implements SwipeMenuListView.OnMen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pill_bag, container, false);
 
         setup(view);
