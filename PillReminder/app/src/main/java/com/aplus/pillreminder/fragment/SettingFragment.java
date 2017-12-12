@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.aplus.pillreminder.GlobalVariable;
 import com.aplus.pillreminder.R;
@@ -57,10 +56,8 @@ public class SettingFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    Toast.makeText(getContext(), "On", Toast.LENGTH_SHORT).show();
                     GlobalVariable.setIsEnabled(getActivity(), true);
                 } else {
-                    Toast.makeText(getContext(), "Off", Toast.LENGTH_SHORT).show();
                     GlobalVariable.setIsEnabled(getActivity(), false);
                 }
             }

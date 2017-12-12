@@ -242,7 +242,7 @@ public class EditPillFragment extends PillInfoFragment {
 
         Intent myIntent = new Intent(getActivity(), AlarmNotificationReceiver.class);
         myIntent.putExtra("id", uniqueId);
-        myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL, pill);
+        myIntent.putExtra(AlarmNotificationReceiver.KEY_PILL_ID, pill.getId());
         myIntent.putExtra("hour", hour);
         myIntent.putExtra("minute", minute);
 
