@@ -99,8 +99,8 @@
                 android:text="Dose" />
 
             <EditText
-                style="@style/PillInfoEditText"
                 android:id="@+id/etDose"
+                style="@style/PillInfoEditText"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
